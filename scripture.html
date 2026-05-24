@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Fill in the Scripture 📜 | BiblicalLivesSeries</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GL0DWYDYES"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-GL0DWYDYES');</script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#C9A84C;--gold-light:#E8D08A;--ink:#1A1509;--vellum:#F2EAD3;--vellum2:#EDE3C5;--parchment:#D4C49A;--text:#2C2310;--text2:#6B5D3F;--muted:#9A8A6A;--border:#C4B48A;--correct:#5A8A2A;--wrong:#A83030}
+
+html{font-size:16px}
+body{font-family:'EB Garamond',serif;background:var(--vellum);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0;overflow-x:hidden;position:relative}
+
+/* AGED PAPER TEXTURE */
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 120% 80% at 30% 20%,rgba(255,240,190,0.4) 0%,transparent 60%),radial-gradient(ellipse 80% 60% at 80% 90%,rgba(180,150,80,0.15) 0%,transparent 50%);pointer-events:none}
+
+/* TOP DECORATIVE BORDER */
+.manuscript-header{width:100%;background:var(--ink);padding:0;position:relative;overflow:hidden}
+.header-pattern{height:8px;background:repeating-linear-gradient(90deg,var(--gold) 0,var(--gold) 8px,transparent 8px,transparent 16px)}
+.header-inner{padding:1.5rem 1.5rem 1.25rem;text-align:center;position:relative}
+.header-inner::before,.header-inner::after{content:'';position:absolute;left:1rem;right:1rem;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--parchment),var(--gold),transparent)}
+.header-inner::before{top:0.5rem}.header-inner::after{bottom:0.5rem}
+.ms-brand{font-family:'Crimson Pro',serif;font-size:11px;letter-spacing:0.3em;color:var(--parchment);opacity:0.6;text-transform:uppercase;margin-bottom:6px}
+.ms-title{font-family:'EB Garamond',serif;font-size:clamp(1.6rem,7vw,2.4rem);color:var(--gold-light);font-weight:400;font-style:italic;line-height:1.1}
+.ms-subtitle{font-family:'Crimson Pro',serif;font-size:13px;color:rgba(242,234,211,0.5);letter-spacing:0.15em;margin-top:4px}
+
+/* DROP CAP DECORATIVE LETTER */
+.drop-cap{font-family:'EB Garamond',serif;font-size:4rem;color:var(--gold);float:left;line-height:0.75;margin-right:6px;margin-top:6px;font-weight:600}
+
+.page{width:100%;max-width:600px;padding:2rem 1.5rem 4rem;position:relative}
+
+/* RULED LINES */
+.page::before{content:'';position:absolute;left:0;right:0;top:0;bottom:0;background:repeating-linear-gradient(transparent,transparent 31px,rgba(180,150,80,0.12) 31px,rgba(180,150,80,0.12) 32px);pointer-events:none}
+
+/* LEFT MARGIN LINE */
+.page::after{content:'';position:absolute;left:3rem;top:0;bottom:0;width:1px;background:rgba(180,150,80,0.2);pointer-events:none}
+
+.screen{display:none}.screen.active{display:block;animation:fadeIn 0.5s ease both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* CHAPTER MARKER */
+.chapter-mark{font-family:'Crimson Pro',serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--border);padding-top:1rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.chapter-num{font-family:'EB Garamond',serif;font-size:1.4rem;color:var(--gold);font-weight:600}
+
+/* PROGRESS AS COLUMN MARKERS */
+.column-progress{display:flex;gap:3px;margin-bottom:1.5rem;align-items:center}
+.col-mark{flex:1;height:3px;background:var(--border);opacity:0.4;transition:all 0.3s}
+.col-mark.done{background:var(--gold);opacity:1}
+.col-mark.active{background:var(--gold);opacity:0.6}
+
+/* VERSE DISPLAY — ILLUMINATED MANUSCRIPT STYLE */
+.verse-block{position:relative;margin-bottom:1.75rem;padding:1.5rem 1.5rem 1.25rem;background:rgba(255,250,235,0.6);border-left:4px solid var(--gold);box-shadow:2px 2px 8px rgba(100,80,30,0.08)}
+.verse-block::before{content:'❧';position:absolute;top:-12px;left:12px;color:var(--gold);font-size:1.4rem;background:var(--vellum);padding:0 6px}
+.verse-reference{font-family:'Crimson Pro',serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem;display:flex;justify-content:space-between;align-items:center}
+.verse-testament{font-style:italic;color:var(--gold);font-size:10px}
+.verse-body{font-family:'EB Garamond',serif;font-size:clamp(1.15rem,4vw,1.4rem);line-height:2;color:var(--text);font-style:italic}
+.blank{display:inline-block;min-width:80px;border-bottom:2px solid var(--gold);margin:0 3px;text-align:center;color:transparent;font-style:normal;font-weight:600;transition:all 0.25s;padding:0 4px}
+.blank.filled{color:var(--text);border-bottom-color:var(--border)}
+.blank.correct-reveal{color:var(--correct);border-bottom-color:var(--correct)}
+.blank.wrong-reveal{color:var(--wrong);border-bottom-color:var(--wrong);text-decoration:line-through}
+
+/* WORD OPTIONS — AS GLOSSARY ENTRIES */
+.gloss-label{font-family:'Crimson Pro',serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1rem}
+.gloss-btn{background:var(--vellum2);border:1px solid var(--border);padding:13px 14px;cursor:pointer;font-family:'EB Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--text);text-align:left;transition:all 0.15s;position:relative;line-height:1.3}
+.gloss-btn::before{content:attr(data-letter)'.';position:absolute;top:8px;left:8px;font-size:10px;font-style:normal;color:var(--muted);font-family:'Crimson Pro',serif;letter-spacing:0.05em}
+.gloss-btn span{display:block;padding-left:14px}
+.gloss-btn:hover:not(:disabled){background:var(--vellum);border-color:var(--gold);color:var(--ink)}
+.gloss-btn.correct{border-color:var(--correct);background:rgba(90,138,42,0.08);color:var(--correct)}
+.gloss-btn.wrong{border-color:var(--wrong);background:rgba(168,48,48,0.06);color:var(--wrong)}
+.gloss-btn.reveal{border-color:var(--correct);background:rgba(90,138,42,0.05);color:var(--correct)}
+.gloss-btn:disabled{cursor:default}
+
+/* MARGINAL ANNOTATION */
+.annotation{font-family:'Crimson Pro',serif;font-size:13px;font-style:italic;color:var(--muted);min-height:28px;margin-bottom:0.5rem;padding-left:4px;border-left:2px solid transparent;transition:all 0.2s}
+.annotation.show-correct{color:var(--correct);border-left-color:var(--correct)}
+.annotation.show-wrong{color:var(--wrong);border-left-color:var(--wrong)}
+
+.hint-link{font-family:'Crimson Pro',serif;font-size:13px;font-style:italic;color:var(--muted);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;transition:color 0.15s;margin-bottom:1.25rem;display:block}
+.hint-link:hover:not(:disabled){color:var(--text2)}
+.hint-link:disabled{opacity:0.4;cursor:default;text-decoration:none}
+
+/* RESULT — COLOPHON STYLE */
+.colophon{border:1px solid var(--border);padding:2rem;text-align:center;background:rgba(255,250,235,0.5);margin-bottom:1.5rem;position:relative}
+.colophon::before,.colophon::after{content:'✦ ✦ ✦';display:block;font-size:12px;color:var(--gold);letter-spacing:8px;margin:0.5rem 0}
+.colophon-score{font-family:'EB Garamond',serif;font-size:clamp(3rem,12vw,5rem);color:var(--ink);font-weight:600;line-height:1}
+.colophon-denom{font-family:'Crimson Pro',serif;font-size:14px;color:var(--muted);letter-spacing:0.1em;margin-top:4px}
+.colophon-verdict{font-family:'EB Garamond',serif;font-size:1.2rem;font-style:italic;color:var(--text2);margin-top:0.75rem}
+
+.colophon-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin:1.5rem 0;border:1px solid var(--border)}
+.c-stat{background:var(--vellum);padding:1rem 0.5rem;text-align:center}
+.c-stat-num{font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--ink)}
+.c-stat-label{font-family:'Crimson Pro',serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+
+.cta-scroll{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1rem;text-align:center;margin-bottom:1.5rem}
+.cta-scroll p{font-family:'Crimson Pro',serif;font-size:13px;font-style:italic;color:var(--text2);margin-bottom:6px}
+.cta-handle{font-family:'EB Garamond',serif;font-size:1.4rem;color:var(--gold);font-weight:600}
+
+.parchment-btn{width:100%;padding:14px;background:var(--ink);color:var(--gold-light);font-family:'EB Garamond',serif;font-size:1.1rem;font-style:italic;border:none;cursor:pointer;letter-spacing:0.05em;transition:all 0.2s;margin-bottom:8px}
+.parchment-btn:hover{background:#2C2010}
+.games-row{display:flex;gap:6px}
+.game-link{flex:1;display:block;text-decoration:none;background:var(--vellum2);border:1px solid var(--border);padding:10px 6px;text-align:center;transition:all 0.15s;font-family:'Crimson Pro',serif}
+.game-link:hover{border-color:var(--gold)}
+.game-link-icon{font-size:16px;display:block;margin-bottom:3px}
+.game-link-text{font-size:10px;color:var(--text2);letter-spacing:0.06em}
+
+.footer{text-align:center;padding:2rem 0;font-family:'Crimson Pro',serif;font-size:11px;color:var(--muted);font-style:italic;letter-spacing:0.08em}
+</style>
+</head>
+<body>
+<div class="manuscript-header">
+  <div class="header-pattern"></div>
+  <div class="header-inner">
+    <div class="ms-brand">BiblicalLivesSeries</div>
+    <div class="ms-title">Fill in the Scripture</div>
+    <div class="ms-subtitle">A Study of the Sacred Word</div>
+  </div>
+  <div class="header-pattern"></div>
+</div>
+
+<div class="page">
+
+<div class="screen active" id="s-intro">
+  <div class="chapter-mark"><span>Preface</span><span class="chapter-num">I</span></div>
+  <p style="font-family:'EB Garamond',serif;font-size:1.1rem;line-height:1.9;color:var(--text2);margin-bottom:1.5rem;font-style:italic">
+    <span class="drop-cap">T</span>he sacred scriptures, committed to memory, become a lamp unto one's path. This exercise presents ten verses of the holy canon — each with a word removed. Select the word that completes the verse as it was written.
+  </p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1.5rem">
+    <div style="border:1px solid var(--border);padding:1rem;background:rgba(255,250,235,0.5);text-align:center">
+      <div style="font-family:'EB Garamond',serif;font-size:2rem;color:var(--gold);font-weight:600">X</div>
+      <div style="font-family:'Crimson Pro',serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:2px">Ten verses</div>
+    </div>
+    <div style="border:1px solid var(--border);padding:1rem;background:rgba(255,250,235,0.5);text-align:center">
+      <div style="font-family:'EB Garamond',serif;font-size:2rem;color:var(--gold);font-weight:600">IV</div>
+      <div style="font-family:'Crimson Pro',serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:2px">Options each</div>
+    </div>
+    <div style="border:1px solid var(--border);padding:1rem;background:rgba(255,250,235,0.5);text-align:center">
+      <div style="font-family:'EB Garamond',serif;font-size:2rem;color:var(--gold);font-weight:600">I</div>
+      <div style="font-family:'Crimson Pro',serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:2px">Hint per game</div>
+    </div>
+    <div style="border:1px solid var(--border);padding:1rem;background:rgba(255,250,235,0.5);text-align:center">
+      <div style="font-family:'EB Garamond',serif;font-size:2rem;color:var(--gold);font-weight:600">C</div>
+      <div style="font-family:'Crimson Pro',serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:2px">Perfect score</div>
+    </div>
+  </div>
+  <button class="parchment-btn" onclick="startGame()">Begin the Study →</button>
+</div>
+
+<div class="screen" id="s-game">
+  <div class="chapter-mark">
+    <span id="q-label">Verse I</span>
+    <span id="score-label" style="color:var(--gold);font-family:'EB Garamond',serif;font-size:1.1rem">Score: 0</span>
+  </div>
+  <div class="column-progress" id="col-prog"></div>
+  <div class="verse-block">
+    <div class="verse-reference"><span id="verse-ref"></span><span class="verse-testament" id="verse-test"></span></div>
+    <div class="verse-body" id="verse-body"></div>
+  </div>
+  <div class="annotation" id="annotation"></div>
+  <div class="gloss-label">Select the missing word</div>
+  <div class="gloss-grid" id="gloss-grid"></div>
+  <button class="hint-link" id="hint-btn" onclick="useHint()">† Reveal first letter as a hint (1 remaining)</button>
+</div>
+
+<div class="screen" id="s-result">
+  <div class="chapter-mark"><span>Colophon</span><span class="chapter-num">✦</span></div>
+  <div class="colophon">
+    <div style="font-family:'Crimson Pro',serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Final Score</div>
+    <div class="colophon-score" id="r-score"></div>
+    <div class="colophon-denom">out of one hundred points</div>
+    <div class="colophon-verdict" id="r-verdict"></div>
+    <div class="colophon-stats">
+      <div class="c-stat"><div class="c-stat-num" id="r-correct"></div><div class="c-stat-label">Correct</div></div>
+      <div class="c-stat"><div class="c-stat-num" id="r-hints"></div><div class="c-stat-label">Hints used</div></div>
+      <div class="c-stat"><div class="c-stat-num" id="r-streak"></div><div class="c-stat-label">Best streak</div></div>
+    </div>
+  </div>
+  <div class="cta-scroll">
+    <p>Watch the stories behind these verses — animated on TikTok</p>
+    <div class="cta-handle">@BiblicalLivesSeries</div>
+  </div>
+  <button class="parchment-btn" onclick="startGame()">Study Again →</button>
+  <div class="games-row" style="margin-top:8px">
+    <a href="game.html" class="game-link"><span class="game-link-icon">🎯</span><div class="game-link-text">Guess Char</div></a>
+    <a href="trivia.html" class="game-link"><span class="game-link-icon">⚡</span><div class="game-link-text">Trivia Blitz</div></a>
+    <a href="timeline.html" class="game-link"><span class="game-link-icon">📅</span><div class="game-link-text">Timeline</div></a>
+    <a href="index.html" class="game-link"><span class="game-link-icon">🏠</span><div class="game-link-text">All Games</div></a>
+  </div>
+</div>
+
+</div>
+<div class="footer">Finis · © BiblicalLivesSeries · Omnia ad Gloriam Dei</div>
+
+<script>
+const allV=[
+  {ref:"John 3:16",test:"New Testament",before:"For God so loved the world that he gave his one and only",blank:"Son",after:", that whoever believes in him shall not perish but have eternal life.",opts:["Son","Spirit","Word","Light"],a:0},
+  {ref:"Psalm 23:1",test:"Old Testament",before:"The Lord is my",blank:"shepherd",after:", I lack nothing.",opts:["shepherd","refuge","strength","guide"],a:0},
+  {ref:"Jeremiah 29:11",test:"Old Testament",before:"'For I know the plans I have for you,' declares the Lord, 'plans to",blank:"prosper",after:"you and not to harm you, plans to give you hope and a future.'",opts:["prosper","test","refine","guide"],a:0},
+  {ref:"Philippians 4:13",test:"New Testament",before:"I can do all this through",blank:"Christ",after:"who gives me strength.",opts:["Christ","God","faith","prayer"],a:0},
+  {ref:"Romans 8:28",test:"New Testament",before:"And we know that in all things God works for the",blank:"good",after:"of those who love him.",opts:["good","glory","honour","purpose"],a:0},
+  {ref:"Proverbs 3:5",test:"Old Testament",before:"Trust in the Lord with all your",blank:"heart",after:"and lean not on your own understanding.",opts:["heart","mind","soul","strength"],a:0},
+  {ref:"Isaiah 40:31",test:"Old Testament",before:"But those who hope in the Lord will renew their",blank:"strength",after:". They will soar on wings like eagles.",opts:["strength","faith","joy","peace"],a:0},
+  {ref:"Matthew 5:14",test:"New Testament",before:"You are the",blank:"light",after:"of the world. A town built on a hill cannot be hidden.",opts:["light","salt","hope","voice"],a:0},
+  {ref:"Psalm 46:10",test:"Old Testament",before:"He says, 'Be still, and",blank:"know",after:"that I am God.'",opts:["know","trust","see","hear"],a:0},
+  {ref:"John 14:6",test:"New Testament",before:"Jesus answered, 'I am the way and the truth and the",blank:"life",after:". No one comes to the Father except through me.'",opts:["life","light","door","vine"],a:0},
+  {ref:"Genesis 1:1",test:"Old Testament",before:"In the",blank:"beginning",after:", God created the heavens and the earth.",opts:["beginning","fullness","glory","wisdom"],a:0},
+  {ref:"Joshua 1:9",test:"Old Testament",before:"Be strong and",blank:"courageous",after:". Do not be afraid; do not be discouraged.",opts:["courageous","faithful","patient","steadfast"],a:0},
+  {ref:"1 Corinthians 13:4",test:"New Testament",before:"Love is",blank:"patient",after:", love is kind. It does not envy, it does not boast, it is not proud.",opts:["patient","gentle","humble","faithful"],a:0},
+  {ref:"Ephesians 2:8",test:"New Testament",before:"For it is by",blank:"grace",after:"you have been saved, through faith.",opts:["grace","faith","love","mercy"],a:0},
+  {ref:"Psalm 119:105",test:"Old Testament",before:"Your word is a lamp to my",blank:"feet",after:"and a light to my path.",opts:["feet","eyes","path","soul"],a:0},
+  {ref:"John 11:35",test:"New Testament",before:"Jesus",blank:"wept",after:".",opts:["wept","prayed","sighed","spoke"],a:0},
+  {ref:"Romans 6:23",test:"New Testament",before:"For the wages of sin is",blank:"death",after:", but the gift of God is eternal life.",opts:["death","pain","loss","shame"],a:0},
+  {ref:"Matthew 6:33",test:"New Testament",before:"But seek first his",blank:"kingdom",after:"and his righteousness.",opts:["kingdom","face","will","glory"],a:0},
+  {ref:"Micah 6:8",test:"Old Testament",before:"And what does the Lord require of you? To act justly and to love",blank:"mercy",after:"and to walk humbly with your God.",opts:["mercy","others","kindness","truth"],a:0},
+  {ref:"Hebrews 11:1",test:"New Testament",before:"Now faith is confidence in what we",blank:"hope",after:"for and assurance about what we do not see.",opts:["hope","pray","trust","ask"]}
+];
+const LETTERS=['a','b','c','d'];
+const TOTAL=10;
+let verses=[],current=0,score=0,correct=0,hintsLeft=1,hintsUsed=0,streak=0,bestStreak=0,answered=false;
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));setTimeout(()=>document.getElementById(id).classList.add('active'),30)}
+function toRoman(n){const r=['I','II','III','IV','V','VI','VII','VIII','IX','X'];return r[n-1]||n}
+
+function startGame(){
+  verses=shuffle(allV).slice(0,TOTAL);current=0;score=0;correct=0;hintsLeft=1;hintsUsed=0;streak=0;bestStreak=0;
+  show('s-game');setTimeout(loadV,80);
+}
+
+function loadV(){
+  answered=false;
+  const v=verses[current];
+  document.getElementById('q-label').textContent=`Verse ${toRoman(current+1)}`;
+  document.getElementById('score-label').textContent=`Score: ${score}`;
+  document.getElementById('verse-ref').textContent=v.ref;
+  document.getElementById('verse-test').textContent=v.test;
+  document.getElementById('verse-body').innerHTML=v.before+' <span class="blank" id="blank">_____</span> '+v.after;
+  document.getElementById('annotation').className='annotation';
+  document.getElementById('annotation').textContent='';
+
+  const prog=document.getElementById('col-prog');
+  prog.innerHTML='';
+  for(let i=0;i<TOTAL;i++){const d=document.createElement('div');d.className='col-mark'+(i<current?' done':i===current?' active':'');prog.appendChild(d)}
+
+  const hb=document.getElementById('hint-btn');
+  hb.disabled=hintsLeft<=0;
+  hb.textContent=hintsLeft>0?'† Reveal first letter as a hint (1 remaining)':'† No hints remaining';
+
+  const shuffled=shuffle(v.opts.map((o,i)=>({text:o,isAnswer:i===v.a})));
+  document.getElementById('gloss-grid').innerHTML=shuffled.map((o,i)=>
+    `<button class="gloss-btn" data-answer="${o.isAnswer}" onclick="pick(this,${o.isAnswer})" data-letter="${LETTERS[i]}"><span>${o.text}</span></button>`
+  ).join('');
+}
+
+function pick(el,isCorrect){
+  if(answered)return;answered=true;
+  document.getElementById('hint-btn').disabled=true;
+  const v=verses[current];const blank=document.getElementById('blank');
+  document.querySelectorAll('.gloss-btn').forEach(b=>{b.disabled=true;if(b.dataset.answer==='true')b.className='gloss-btn reveal'});
+  const ann=document.getElementById('annotation');
+  if(isCorrect){
+    score+=10;correct++;streak++;if(streak>bestStreak)bestStreak=streak;
+    el.className='gloss-btn correct';blank.className='blank correct-reveal';blank.textContent=v.blank;
+    ann.className='annotation show-correct';ann.textContent='✓ Correct — well remembered.';
+  } else {
+    streak=0;el.className='gloss-btn wrong';blank.className='blank wrong-reveal';blank.textContent=el.querySelector('span').textContent;
+    ann.className='annotation show-wrong';ann.textContent=`✗ The word was: ${v.blank}`;
+  }
+  document.getElementById('score-label').textContent=`Score: ${score}`;
+  setTimeout(()=>nextV(),1500);
+}
+
+function useHint(){
+  if(hintsLeft<=0||answered)return;hintsLeft--;hintsUsed++;
+  const v=verses[current];const blank=document.getElementById('blank');
+  blank.textContent=v.blank[0]+'...';blank.className='blank filled';
+  document.getElementById('hint-btn').disabled=true;
+  document.getElementById('hint-btn').textContent='† No hints remaining';
+}
+
+function nextV(){current++;if(current>=TOTAL)result();else{show('s-game');setTimeout(loadV,80)}}
+
+function result(){
+  const pct=Math.round((score/100)*100);
+  let verdict;
+  if(pct===100)verdict='"Thy word have I hid in mine heart." — Psalm 119:11';
+  else if(pct>=80)verdict='"Let the word of Christ dwell in you richly." — Colossians 3:16';
+  else if(pct>=60)verdict='"Study to show thyself approved." — 2 Timothy 2:15';
+  else verdict='"Man shall not live by bread alone, but by every word of God." — Luke 4:4';
+  document.getElementById('r-score').textContent=score;
+  document.getElementById('r-verdict').textContent=verdict;
+  document.getElementById('r-correct').textContent=correct+'/10';
+  document.getElementById('r-hints').textContent=hintsUsed;
+  document.getElementById('r-streak').textContent=bestStreak;
+  show('s-result');
+}
+</script>
+</body>
+</html>
