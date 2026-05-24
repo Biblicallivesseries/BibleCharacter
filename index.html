@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Guess the Bible Character | BiblicalLivesSeries</title>
-<meta name="description" content="Clues appear one by one — guess the Bible character before they run out. From @BiblicalLivesSeries on TikTok."/>
+<title>BiblicalLivesSeries — Animated Bible Stories</title>
+<meta name="description" content="Animated stories of the Bible's most fascinating characters. Play our Bible games, watch on TikTok and YouTube."/>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GL0DWYDYES"></script>
 <script>
@@ -13,654 +14,376 @@
   gtag('js', new Date());
   gtag('config', 'G-GL0DWYDYES');
 </script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --gold: #C9A84C;
-    --gold-light: #E8D08A;
-    --dark: #0E0C0A;
-    --dark2: #1A1713;
-    --dark3: #252118;
-    --parchment: #F5EFE0;
-    --parchment2: #EDE5CE;
-    --text: #F0E8D5;
-    --text-muted: #A89880;
-    --radius: 12px;
-  }
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8D08A;
+  --dark: #0A0906;
+  --dark2: #131109;
+  --dark3: #1C1810;
+  --parchment: #F5EFE0;
+  --text: #E8DFC8;
+  --muted: #8A7D68;
+  --border: rgba(201,168,76,0.12);
+}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--dark);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem 1rem 4rem;
-    position: relative;
-    overflow-x: hidden;
-  }
+html { scroll-behavior: smooth; }
 
-  body::before {
-    content: '';
-    position: fixed;
-    top: -40%; left: -20%;
-    width: 70%; height: 70%;
-    background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
-    pointer-events: none; z-index: 0;
-  }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  body::after {
-    content: '';
-    position: fixed;
-    bottom: -30%; right: -10%;
-    width: 50%; height: 60%;
-    background: radial-gradient(ellipse, rgba(201,168,76,0.05) 0%, transparent 70%);
-    pointer-events: none; z-index: 0;
-  }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 90% 80%, rgba(201,168,76,0.04) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
 
-  .container {
-    width: 100%; max-width: 560px;
-    position: relative; z-index: 1;
-  }
+.page { position: relative; z-index: 1; }
 
-  .brand {
-    text-align: center; margin-bottom: 2rem;
-    animation: fadeDown 0.6s ease both;
-  }
+header {
+  text-align: center;
+  padding: 4rem 1.5rem 2rem;
+  animation: fadeDown 0.8s ease both;
+}
 
-  .brand-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px; letter-spacing: 0.2em;
-    color: var(--gold); text-transform: uppercase;
-  }
+.logo-mark {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 1.5rem;
+}
 
-  .divider-line {
-    width: 40px; height: 1px;
-    background: var(--gold); opacity: 0.4;
-    margin: 8px auto;
-  }
+.logo-cross {
+  width: 28px; height: 28px;
+  position: relative; display: flex;
+  align-items: center; justify-content: center;
+}
 
-  .screen { display: none; }
-  .screen.active { display: block; animation: fadeUp 0.45s ease both; }
+.logo-cross::before,
+.logo-cross::after {
+  content: '';
+  position: absolute;
+  background: var(--gold);
+  border-radius: 2px;
+}
+.logo-cross::before { width: 3px; height: 22px; }
+.logo-cross::after  { width: 16px; height: 3px; top: 6px; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+.logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
 
-  /* INTRO */
-  .intro-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 8vw, 3rem);
-    font-weight: 600; line-height: 1.15;
-    text-align: center; margin-bottom: 1rem;
-    color: var(--parchment);
-  }
-  .intro-title span { color: var(--gold); }
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--parchment);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
 
-  .intro-sub {
-    font-size: 14px; color: var(--text-muted);
-    text-align: center; line-height: 1.7;
-    margin-bottom: 2rem;
-    max-width: 420px; margin-left: auto; margin-right: auto;
-  }
+.hero-title em {
+  font-style: italic;
+  color: var(--gold);
+  display: block;
+}
 
-  .scoring-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 10px; margin-bottom: 2rem;
-  }
+.hero-sub {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 340px;
+  margin: 1rem auto 0;
+}
 
-  .score-card {
-    background: rgba(201,168,76,0.06);
-    border: 1px solid rgba(201,168,76,0.15);
-    border-radius: var(--radius);
-    padding: 1rem; text-align: center;
-  }
+.divider {
+  display: flex; align-items: center; gap: 12px;
+  max-width: 500px; margin: 2.5rem auto;
+  padding: 0 1.5rem;
+}
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+.divider-icon { font-size: 14px; color: var(--gold); opacity: 0.6; letter-spacing: 4px; }
 
-  .score-card-icon { font-size: 22px; margin-bottom: 6px; display: block; }
-  .score-card-title { font-size: 12px; font-weight: 500; color: var(--parchment); margin-bottom: 2px; }
-  .score-card-sub { font-size: 11px; color: var(--text-muted); }
+.section-label {
+  text-align: center;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.25rem;
+}
 
-  /* BUTTONS */
-  .btn-primary {
-    display: block; width: 100%; padding: 15px;
-    background: var(--gold); color: var(--dark);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px; font-weight: 500;
-    letter-spacing: 0.04em; border: none;
-    border-radius: var(--radius); cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
-  .btn-primary:active { transform: translateY(0); }
+.games-section {
+  padding: 0 1.25rem 1rem;
+  max-width: 540px; margin: 0 auto;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
 
-  .btn-ghost {
-    display: block; width: 100%; padding: 13px;
-    background: transparent; color: var(--text-muted);
-    font-family: 'DM Sans', sans-serif; font-size: 13px;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: var(--radius); cursor: pointer;
-    transition: all 0.2s; margin-top: 10px;
-  }
-  .btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+.games-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-bottom: 0.75rem;
+}
 
-  /* PROGRESS */
-  .progress-wrap { margin-bottom: 1.5rem; }
-  .progress-meta {
-    display: flex; justify-content: space-between;
-    font-size: 11px; color: var(--text-muted);
-    margin-bottom: 8px; letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-  .progress-track {
-    height: 2px; background: rgba(255,255,255,0.08);
-    border-radius: 2px; overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%; background: var(--gold);
-    border-radius: 2px; transition: width 0.4s ease;
-  }
+.game-card {
+  display: block; text-decoration: none;
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem 1.25rem;
+  transition: all 0.25s ease;
+  position: relative; overflow: hidden;
+}
 
-  /* CLUES */
-  .clue-header {
-    display: flex; justify-content: space-between;
-    align-items: center; margin-bottom: 1rem;
-  }
-  .round-badge {
-    font-size: 11px; font-weight: 500;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--text-muted);
-  }
-  .score-badge { font-size: 14px; font-weight: 500; color: var(--gold); }
+.game-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0; transition: opacity 0.25s;
+}
 
-  .clue-item {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 10px; padding: 14px 18px;
-    margin-bottom: 8px; font-size: 13px;
-    color: var(--text-muted); line-height: 1.6;
-    animation: slideIn 0.35s ease both;
-  }
-  .clue-item:last-child { color: var(--text); border-color: rgba(201,168,76,0.2); }
+.game-card:hover {
+  border-color: rgba(201,168,76,0.3);
+  transform: translateY(-3px);
+  background: var(--dark3);
+}
+.game-card:hover::before { opacity: 1; }
 
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(-8px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
+.game-card-icon { font-size: 32px; margin-bottom: 0.75rem; display: block; }
+.game-card-tag {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 4px; display: block;
+}
+.game-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600;
+  color: var(--parchment); line-height: 1.2; margin-bottom: 6px;
+}
+.game-card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.game-card-arrow {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--gold);
+  margin-top: 1rem; font-weight: 500;
+}
 
-  .clue-label {
-    font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
-    text-transform: uppercase; margin-bottom: 4px;
-    display: flex; align-items: center; gap: 8px;
-  }
+.social-section {
+  padding: 0 1.25rem;
+  max-width: 540px; margin: 0 auto;
+  animation: fadeUp 0.8s 0.35s ease both;
+}
 
-  .pts-badge {
-    font-size: 10px; padding: 1px 7px;
-    border-radius: 20px; font-weight: 500;
-  }
-  .pts-5 { background: rgba(99,153,34,0.2); color: #8BC34A; }
-  .pts-4 { background: rgba(55,138,221,0.2); color: #64B5F6; }
-  .pts-3 { background: rgba(186,117,23,0.2); color: #FFB74D; }
-  .pts-2 { background: rgba(153,60,29,0.2); color: #FF8A65; }
-  .pts-1 { background: rgba(163,45,45,0.2); color: #EF9A9A; }
+.social-stack { display: flex; flex-direction: column; gap: 8px; }
 
-  .reveal-btn {
-    width: 100%; padding: 12px 16px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px; font-size: 13px;
-    color: var(--text-muted); cursor: pointer;
-    margin-bottom: 8px; font-family: 'DM Sans', sans-serif;
-    transition: all 0.18s; text-align: left;
-  }
-  .reveal-btn:hover:not(:disabled) {
-    border-color: rgba(201,168,76,0.3);
-    color: var(--text);
-  }
-  .reveal-btn:disabled { opacity: 0.35; cursor: default; }
+.social-link {
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none;
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  transition: all 0.2s ease;
+}
 
-  /* GUESS */
-  .guess-input {
-    width: 100%; padding: 14px 18px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.04);
-    color: var(--text); font-size: 14px;
-    outline: none; transition: border-color 0.15s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .guess-input::placeholder { color: rgba(168,152,128,0.5); }
-  .guess-input:focus { border-color: rgba(201,168,76,0.4); }
-  .guess-input.wrong { border-color: #E57373; animation: shake 0.3s ease; }
-  .guess-input.correct { border-color: #81C784; }
+.social-link:hover {
+  border-color: rgba(201,168,76,0.25);
+  background: var(--dark3);
+  transform: translateX(3px);
+}
 
-  @keyframes shake {
-    0%,100%{ transform: translateX(0); }
-    25%{ transform: translateX(-6px); }
-    75%{ transform: translateX(6px); }
-  }
+.social-icon-wrap {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
 
-  .guess-btn {
-    width: 100%; padding: 13px;
-    background: var(--gold); color: var(--dark);
-    border: none; border-radius: 10px;
-    font-size: 13px; font-weight: 500;
-    cursor: pointer; font-family: 'DM Sans', sans-serif;
-    margin-top: 10px; transition: all 0.18s;
-  }
-  .guess-btn:hover { background: var(--gold-light); }
+.social-icon-tiktok { background: rgba(255,255,255,0.05); }
+.social-icon-youtube { background: rgba(255,60,60,0.08); }
+.social-icon-facebook { background: rgba(60,100,255,0.08); }
 
-  .attempts-row { display: flex; gap: 6px; margin-top: 12px; }
-  .attempt-dot {
-    width: 9px; height: 9px; border-radius: 50%;
-    background: rgba(255,255,255,0.12);
-    transition: background 0.2s;
-  }
-  .attempt-dot.used { background: #E57373; }
-  .attempt-dot.correct { background: #81C784; }
+.social-info { flex: 1; }
+.social-name { font-size: 13px; font-weight: 500; color: var(--parchment); margin-bottom: 2px; }
+.social-handle { font-size: 11px; color: var(--muted); }
 
-  .feedback {
-    font-size: 13px; padding: 10px 14px;
-    border-radius: 8px; margin-top: 10px; display: none;
-    line-height: 1.5;
-  }
-  .feedback.wrong { background: rgba(229,115,115,0.12); color: #EF9A9A; display: block; }
-  .feedback.correct { background: rgba(129,199,132,0.12); color: #A5D6A7; display: block; }
-  .feedback.reveal { background: rgba(255,255,255,0.05); color: var(--text-muted); display: block; }
+.social-arrow { font-size: 16px; color: var(--muted); transition: transform 0.2s, color 0.2s; }
+.social-link:hover .social-arrow { color: var(--gold); transform: translateX(3px); }
 
-  .hints-left {
-    font-size: 11px; color: var(--text-muted);
-    text-align: right; margin-bottom: 8px;
-    letter-spacing: 0.03em;
-  }
+.verse-section {
+  max-width: 540px; margin: 0 auto;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  animation: fadeUp 0.8s 0.5s ease both;
+}
 
-  /* ROUND RESULT */
-  .result-card {
-    background: var(--dark2);
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 16px; padding: 2rem 1.5rem;
-    text-align: center; margin-bottom: 1.5rem;
-    position: relative; overflow: hidden;
-  }
-  .result-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
+.verse-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 4vw, 1.35rem);
+  font-style: italic; color: var(--muted);
+  line-height: 1.7; margin-bottom: 0.75rem;
+}
 
-  .result-icon {
-    font-size: 52px; margin-bottom: 0.75rem;
-    display: block;
-    animation: iconPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
-  }
-  @keyframes iconPop {
-    from { transform: scale(0.5); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
-  }
+.verse-ref {
+  font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--gold); opacity: 0.7;
+}
 
-  .result-label {
-    font-size: 11px; letter-spacing: 0.15em;
-    color: var(--gold); text-transform: uppercase; margin-bottom: 6px;
-  }
-  .result-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.8rem, 7vw, 2.4rem);
-    font-weight: 600; color: var(--parchment);
-    margin-bottom: 6px; line-height: 1.2;
-  }
-  .result-pts {
-    font-size: 13px; color: var(--text-muted); margin-bottom: 1.25rem;
-  }
-  .result-pts strong { color: var(--gold); }
-  .result-fact {
-    font-size: 13px; color: var(--text-muted);
-    line-height: 1.75; text-align: left;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 1rem; margin-top: 0.5rem;
-  }
+footer {
+  text-align: center;
+  padding: 2rem 1.5rem 3rem;
+  font-size: 11px; color: rgba(138,125,104,0.3);
+  letter-spacing: 0.05em;
+}
 
-  /* FINAL */
-  .final-score-grid {
-    display: flex; justify-content: space-around;
-    background: var(--dark2);
-    border: 1px solid rgba(201,168,76,0.15);
-    border-radius: var(--radius); padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .final-stat { text-align: center; }
-  .final-stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem; font-weight: 600;
-    color: var(--gold); line-height: 1;
-    margin-bottom: 4px;
-  }
-  .final-stat-label {
-    font-size: 11px; color: var(--text-muted);
-    text-transform: uppercase; letter-spacing: 0.08em;
-  }
+.particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.particle {
+  position: absolute; width: 2px; height: 2px;
+  background: var(--gold); border-radius: 50%; opacity: 0;
+  animation: float linear infinite;
+}
 
-  .cta-box {
-    background: rgba(201,168,76,0.06);
-    border: 1px solid rgba(201,168,76,0.18);
-    border-radius: var(--radius);
-    padding: 1.25rem 1.5rem;
-    text-align: center; margin-bottom: 1.25rem;
-  }
-  .cta-box p { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; line-height: 1.6; }
-  .tiktok-handle {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px; color: var(--gold); font-weight: 600;
-  }
+@keyframes float {
+  0%   { opacity: 0; transform: translateY(100vh) scale(0); }
+  10%  { opacity: 0.3; }
+  90%  { opacity: 0.15; }
+  100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+}
 
-  .footer {
-    text-align: center; margin-top: 3rem;
-    font-size: 11px; color: rgba(168,152,128,0.3);
-    letter-spacing: 0.05em;
-  }
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+  50%       { box-shadow: 0 0 0 4px rgba(201,168,76,0.06); }
+}
+
+.game-card.featured { animation: pulse-border 3s ease infinite; }
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="particles" id="particles"></div>
 
-  <div class="brand">
-    <div class="brand-name">BiblicalLivesSeries</div>
+<div class="page">
+
+  <header>
+    <div class="logo-mark">
+      <div class="logo-cross"></div>
+      <span class="logo-text">BiblicalLivesSeries</span>
+    </div>
+    <h1 class="hero-title">
+      Stories that<br/>
+      <em>changed the world</em>
+    </h1>
+    <p class="hero-sub">Animated Bible stories bringing Scripture's most fascinating characters to life.</p>
+  </header>
+
+  <div class="games-section">
+    <p class="section-label">🎮 Play our Bible games</p>
+    <div class="games-grid">
+      <a href="quiz.html" class="game-card featured">
+        <span class="game-card-icon">📖</span>
+        <span class="game-card-tag">Quiz</span>
+        <div class="game-card-title">Which Bible character are you?</div>
+        <div class="game-card-desc">10 questions. 16 possible results.</div>
+        <div class="game-card-arrow">Play now →</div>
+      </a>
+      <a href="game.html" class="game-card">
+        <span class="game-card-icon">🎯</span>
+        <span class="game-card-tag">Game</span>
+        <div class="game-card-title">Guess the Bible character</div>
+        <div class="game-card-desc">Clues appear one by one. Score points.</div>
+        <div class="game-card-arrow">Play now →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-icon">✦ ✦ ✦</span>
     <div class="divider-line"></div>
   </div>
 
-  <!-- INTRO -->
-  <div class="screen active" id="s-intro">
-    <h1 class="intro-title">Guess the<br/><span>Bible</span><br/>character</h1>
-    <p class="intro-sub">Clues appear one by one — the earlier you guess correctly, the more points you earn. 3 attempts per character. 10 rounds.</p>
-    <div class="scoring-grid">
-      <div class="score-card">
-        <span class="score-card-icon">🎯</span>
-        <div class="score-card-title">Guess on clue 1</div>
-        <div class="score-card-sub">5 points</div>
-      </div>
-      <div class="score-card">
-        <span class="score-card-icon">⏳</span>
-        <div class="score-card-title">More clues = fewer points</div>
-        <div class="score-card-sub">Down to 1 point</div>
-      </div>
-      <div class="score-card">
-        <span class="score-card-icon">❌</span>
-        <div class="score-card-title">3 wrong answers</div>
-        <div class="score-card-sub">Round ends, 0 points</div>
-      </div>
-      <div class="score-card">
-        <span class="score-card-icon">🏆</span>
-        <div class="score-card-title">Perfect score</div>
-        <div class="score-card-sub">50 points</div>
-      </div>
-    </div>
-    <button class="btn-primary" onclick="startGame()">Start playing →</button>
-  </div>
-
-  <!-- GAME -->
-  <div class="screen" id="s-game">
-    <div class="progress-wrap">
-      <div class="progress-meta">
-        <span id="round-label">Round 1 of 10</span>
-        <span id="score-label" style="color:var(--gold)">Score: 0</span>
-      </div>
-      <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
-    </div>
-    <div id="clues-area" style="margin-bottom:1rem"></div>
-    <div class="hints-left" id="hints-left"></div>
-    <button class="reveal-btn" id="reveal-btn" onclick="revealNextClue()">Show next clue</button>
-    <div style="margin-top:1rem">
-      <input type="text" class="guess-input" id="guess-input" placeholder="Who is this Bible character?" onkeydown="if(event.key==='Enter')submitGuess()"/>
-      <div class="feedback" id="feedback"></div>
-      <div class="attempts-row" id="attempts-row"></div>
-      <button class="guess-btn" onclick="submitGuess()">Submit guess</button>
+  <div class="social-section">
+    <p class="section-label">📺 Watch the animated series</p>
+    <div class="social-stack">
+      <a href="https://www.tiktok.com/@biblicallivesseries" target="_blank" class="social-link">
+        <div class="social-icon-wrap social-icon-tiktok">🎵</div>
+        <div class="social-info">
+          <div class="social-name">TikTok</div>
+          <div class="social-handle">@BiblicalLivesSeries</div>
+        </div>
+        <span class="social-arrow">→</span>
+      </a>
+      <a href="https://www.youtube.com/@BiblicalLivesSeries" target="_blank" class="social-link">
+        <div class="social-icon-wrap social-icon-youtube">▶️</div>
+        <div class="social-info">
+          <div class="social-name">YouTube</div>
+          <div class="social-handle">@BiblicalLivesSeries</div>
+        </div>
+        <span class="social-arrow">→</span>
+      </a>
+      <a href="https://www.facebook.com/BiblicalLivesSeries" target="_blank" class="social-link">
+        <div class="social-icon-wrap social-icon-facebook">📘</div>
+        <div class="social-info">
+          <div class="social-name">Facebook</div>
+          <div class="social-handle">BiblicalLivesSeries</div>
+        </div>
+        <span class="social-arrow">→</span>
+      </a>
     </div>
   </div>
 
-  <!-- ROUND RESULT -->
-  <div class="screen" id="s-round-result">
-    <div class="result-card">
-      <span class="result-icon" id="rr-icon"></span>
-      <div class="result-label">The answer was</div>
-      <div class="result-name" id="rr-name"></div>
-      <div class="result-pts" id="rr-pts"></div>
-      <div class="result-fact" id="rr-fact"></div>
+  <div class="verse-section">
+    <div class="divider" style="margin-bottom:2rem">
+      <div class="divider-line"></div>
+      <span class="divider-icon">✦</span>
+      <div class="divider-line"></div>
     </div>
-    <button class="btn-primary" id="rr-next-btn" onclick="nextRound()">Next character →</button>
+    <p class="verse-text">"Your word is a lamp to my feet and a light to my path."</p>
+    <p class="verse-ref">Psalm 119:105</p>
   </div>
 
-  <!-- FINAL -->
-  <div class="screen" id="s-final">
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--parchment);margin-bottom:0.5rem">Game complete!</h2>
-    <p style="font-size:14px;color:var(--text-muted);margin-bottom:1.5rem;line-height:1.6" id="final-sub"></p>
-    <div class="final-score-grid">
-      <div class="final-stat">
-        <div class="final-stat-num" id="final-score">0</div>
-        <div class="final-stat-label">Points</div>
-      </div>
-      <div class="final-stat">
-        <div class="final-stat-num" id="final-correct">0</div>
-        <div class="final-stat-label">Correct</div>
-      </div>
-      <div class="final-stat">
-        <div class="final-stat-num">50</div>
-        <div class="final-stat-label">Max</div>
-      </div>
-    </div>
-    <div class="cta-box">
-      <p>Want to know the full stories behind these characters? Watch them animated on TikTok.</p>
-      <div class="tiktok-handle">@BiblicalLivesSeries</div>
-    </div>
-    <button class="btn-primary" onclick="startGame()">Play again →</button>
-  </div>
+  <footer>© BiblicalLivesSeries — All rights reserved</footer>
 
 </div>
 
-<div class="footer">© BiblicalLivesSeries — All rights reserved</div>
-
 <script>
-const allCharacters = [
-  { name:"Moses", icon:"🌿", clues:["I was born during a time when babies like me were being killed at birth","I was placed in a basket on a river as a baby to save my life","I grew up in a royal palace but discovered my true heritage","I fled into the wilderness after killing a man","God spoke to me through a burning bush that was not consumed","I led over two million people out of slavery","I parted a sea with my staff","I received the Ten Commandments on a mountain"], fact:"Moses led the Israelites out of Egypt and wrote the first five books of the Bible. He spoke with God face to face — the only person in Scripture described this way." },
-  { name:"David", icon:"🎵", clues:["I was the youngest of eight brothers and worked as a shepherd","I killed a giant with a single stone from my sling","I became best friends with a prince whose father wanted me dead","I was anointed king as a boy but waited years to take the throne","I danced before the Ark of the Covenant with all my might","I committed adultery and arranged a man's death to cover it up","I wrote many of the Psalms including the most famous one","I am called a man after God's own heart"], fact:"David was Israel's greatest king and an ancestor of Jesus. Despite his failures, he is the only person in Scripture called 'a man after God's own heart.'" },
-  { name:"Esther", icon:"👑", clues:["I was an orphan raised by my older cousin","I was taken into a royal palace as part of a selection process","I became queen to one of the most powerful kings in the ancient world","I hid my true identity and heritage for a long time","My people faced a decree of total extermination","My cousin told me I may have come to my position for such a time as this","I approached the king uninvited — risking my life to do so","I hosted two banquets before making my request to save my people"], fact:"Esther risked her life to save the Jewish people from genocide. Her courage is celebrated every year during the festival of Purim." },
-  { name:"Paul", icon:"⛓️", clues:["I was a highly educated Pharisee trained under one of the greatest teachers of my time","I held the coats of the men who stoned the first Christian martyr","I hunted down Christians and dragged them to prison","I was struck blind by a blinding light on a dusty road","A man named Ananias prayed for me and scales fell from my eyes","I traveled thousands of miles across three missionary journeys","I wrote nearly half of the New Testament","I was shipwrecked, beaten, imprisoned — and still kept going"], fact:"Paul wrote 13 letters in the New Testament and spread Christianity across the Roman Empire. He called himself the chief of sinners — yet became history's most influential missionary." },
-  { name:"Joseph", icon:"🌈", clues:["I was my father's favourite son and received a special coat","My brothers were so jealous they threw me in a pit","I was sold into slavery by my own family","I was falsely accused and thrown in prison in a foreign land","I accurately interpreted the dreams of two fellow prisoners","I interpreted the dream of the most powerful ruler in the land","I became second in command over an entire nation","When my brothers came desperate for food I chose to forgive them"], fact:"Joseph's story spans more chapters than any other person in Genesis. His life is the most powerful picture of forgiveness and God's sovereignty in all of Scripture." },
-  { name:"Peter", icon:"🪨", clues:["I was a fisherman on a lake when I was called","I left my nets immediately and followed without hesitation","I walked on water — briefly — before I sank","I was the first to declare that Jesus was the Christ, the Son of God","On the night of the arrest I cut off a man's ear with a sword","I denied knowing my closest friend three times in one night","I wept bitterly after I heard the rooster crow","I preached a sermon and three thousand people became believers in one day"], fact:"Peter became the leader of the early church despite his dramatic failures. Jesus gave him a new name meaning 'rock' — and on that rock the church was built." },
-  { name:"Mary Magdalene", icon:"🕊️", clues:["Seven demons were cast out of me","I followed Jesus from Galilee all the way to Jerusalem","I stayed at the crucifixion when most disciples had fled","I came to the tomb early in the morning to anoint the body","I arrived and found the tomb empty","I ran to tell the disciples what I had seen","I encountered someone I thought was the gardener","I was the first person in history to see Jesus after the resurrection"], fact:"Mary Magdalene was chosen by Jesus himself to be the first witness of the resurrection — and the first person sent to announce the greatest news in history." },
-  { name:"Elijah", icon:"🔥", clues:["I appeared suddenly in Scripture with no introduction or backstory","I announced a drought that lasted years — and it did","I was fed by ravens sent by God during the famine","I raised a widow's son from the dead","I challenged 450 false prophets to a public contest on a mountain","I called fire down from heaven in front of thousands","After my greatest victory I collapsed under a tree and asked to die","I was taken to heaven without dying — in a chariot of fire"], fact:"Elijah is one of only two people in Scripture who never died. Centuries later he appeared alongside Moses when Jesus was transfigured on a mountain." },
-  { name:"Gideon", icon:"🪔", clues:["An angel found me hiding while threshing wheat out of fear","The angel called me a mighty warrior — I absolutely did not believe it","I tested God with a wool fleece — twice — before I trusted Him","God deliberately reduced my army from 32,000 soldiers to just 300","We defeated a vast enemy army using only torches, clay jars, and trumpets","I was from the weakest clan in my tribe and the least in my family","I refused to become king saying only God was Israel's true ruler","I made an idol after my victory that eventually became a spiritual trap"], fact:"Gideon's victory with 300 men against a vast army is one of the most dramatic in Scripture. His story exists to prove God uses the weak and the unlikely." },
-  { name:"Jonah", icon:"🐋", clues:["God told me to go preach to a great wicked city — I boarded a ship going the opposite direction","A violent storm arose and the sailors cast lots to find who was responsible","I told them to throw me overboard — the storm immediately stopped","A great fish swallowed me whole","I prayed from inside the fish for three days and three nights","I was vomited onto dry land","I finally went to the city I had been running from — and it worked, the whole city repented","I sat outside the city bitter and angry that God had shown them mercy"], fact:"Jonah is one of Scripture's most honest portraits of a reluctant prophet. Jesus compared his three days in the tomb to Jonah's three days inside the fish." },
-  { name:"Ruth", icon:"🌾", clues:["I was not an Israelite — I came from a nation often at odds with Israel","My husband died leaving me a widow in a foreign land","My mother-in-law told me to return to my own people and find a new husband","I refused and said where you go I will go — your people will be my people","I left everything I knew to live in a land I had never seen","I worked in fields gathering leftover grain to survive","The owner of the fields noticed me and showed me extraordinary kindness","I became the great-grandmother of Israel's greatest king"], fact:"Ruth is one of only five women named in the genealogy of Jesus in Matthew 1. Her declaration of loyalty to Naomi is one of the most beautiful speeches in all of Scripture." },
-  { name:"Samson", icon:"💪", clues:["My birth was announced by an angel to a woman who had been unable to have children","I was set apart to God from birth and was never to cut my hair","I killed a lion with my bare hands and told no one","I killed 1,000 men with only the jawbone of a donkey","I carried an entire city's gates on my shoulders to a hilltop","A woman was hired by my enemies specifically to find the secret of my strength","I was betrayed — my hair was cut and I lost everything","Blind and chained, my final act brought down an entire building on my enemies"], fact:"Samson judged Israel for 20 years. His story is a picture of extraordinary gifting, devastating failure, and — in his final moment — complete redemption." },
-  { name:"Deborah", icon:"⚖️", clues:["I am one of the very few women called a prophet in the Old Testament","I sat under a palm tree and people came from everywhere for my judgment","I was also a judge who governed an entire nation","I summoned a military commander and gave him God's specific battle instructions","He refused to go to war unless I personally went with him","I agreed to go but warned him the glory of the victory would belong to a woman","After the victory I composed and sang a song of triumph","I am one of the most powerful leaders — male or female — in all of Scripture"], fact:"Deborah is one of the most remarkable figures in the Bible — simultaneously a prophet, judge, and military strategist at a time when women held none of those roles." },
-  { name:"Thomas", icon:"🔎", clues:["I was one of the twelve disciples chosen by Jesus","When Jesus said he would return to Judea where people tried to stone him, I said let us go and die with him","When Jesus spoke of going to prepare a place, I honestly said I don't know the way","I was absent when Jesus first appeared to the disciples after the resurrection","I said I would not believe unless I put my fingers in the nail wounds myself","Eight days later Jesus appeared again — and came directly to me","When I saw him I said my Lord and my God — the clearest declaration of faith in the Gospels","Jesus said blessed are those who have not seen yet still believe"], fact:"Thomas eventually travelled further than any other apostle — bringing the gospel all the way to India. He is venerated as the patron saint of India to this day." },
-  { name:"Solomon", icon:"📜", clues:["I was the son of Israel's greatest king and a woman he should not have married","God appeared to me and said ask for whatever you want — I asked only for wisdom","I became the wisest person who ever lived","I built the most magnificent temple the ancient world had ever seen","I wrote thousands of proverbs and over a thousand songs","I conducted a great experiment — living for pleasure, wealth, and achievement — and called it all meaningless","I had hundreds of wives and concubines who slowly turned my heart away from God","Despite all my wisdom I ended my life in spiritual compromise"], fact:"Solomon's wealth was so staggering that Jesus said not even Solomon in all his glory was dressed as beautifully as a simple wildflower in a field." },
-  { name:"Esau", icon:"🏕️", clues:["I was a twin — born gripping my brother's heel","I was my father's favourite — a skilled hunter and outdoorsman","My brother was quiet and preferred staying near the tents","I came home from hunting so famished I said I was about to die","I traded my entire birthright — my inheritance — for a single bowl of stew","My brother later disguised himself and stole my father's blessing meant for me","I wept bitterly and vowed to kill my brother","Years later when my brother returned terrified expecting the worst — I ran to him and embraced him"], fact:"Esau's choice to forgive his brother Jacob after years of betrayal is one of the most unexpected and moving reconciliation scenes in all of Genesis." },
-  { name:"Rahab", icon:"🪢", clues:["I lived inside walls so thick and strong that military conquest seemed impossible","My profession made me an outcast — yet I was known throughout the city","Two foreign spies came to my city and I hid them on my rooftop under bundles of flax","I told the spies that everyone in my city was terrified — their God had dried up seas and defeated armies","I helped the spies escape through my window by lowering them on a rope","In return I was told to tie a scarlet cord in my window as a sign of protection","When the walls of my city collapsed and fell flat, my house on the wall was the one that stood","I married into the people of Israel and was fully welcomed into the community"], fact:"Rahab is one of only five women in the genealogy of Jesus in Matthew 1. She appears in Hebrews 11 — the hall of faith — alongside Abraham, Moses, and Elijah." },
-  { name:"Naomi", icon:"🌿", clues:["My name means pleasant — but I later begged people to call me bitter instead","I left my homeland with my husband and two sons during a severe famine","Both of my sons married women from the foreign land where we settled","My husband died — then both of my sons died — leaving me with two daughters-in-law and nothing else","I urged both daughters-in-law to return to their own families and start over","One returned home — but the other absolutely refused to leave my side","I returned to my homeland broken, empty-handed, and told people not to call me by my old name","By the end of my story my arms were full — holding my newborn grandson"], fact:"Naomi's story is one of the most human in Scripture — raw grief, bitterness, and total restoration. Her grandson Obed was the grandfather of King David." },
-  { name:"Joshua", icon:"⚔️", clues:["I served as the assistant to the greatest leader my people had ever known","I was one of twelve men sent to spy on a promised land","While ten others gave a fearful report I said we can certainly take it","After my leader died I was chosen to take his place","God told me to be strong and courageous — three times in a single speech","I led my people across a flooded river at flood season — and the waters stopped","We marched silently around a fortified city for seven days and on the seventh day shouted","The walls came down and we took the city"], fact:"Joshua led the Israelites into the Promised Land after 40 years in the wilderness. His name in Hebrew is the same root as the name Jesus." }
-];
-
-const MAX_ROUNDS = 10;
-const MAX_ATTEMPTS = 3;
-const MAX_CLUES = 5;
-
-let gameChars = [], round = 0, totalScore = 0, totalCorrect = 0;
-let cluesShown = 0, attemptsUsed = 0, roundDone = false, currentChar = null;
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  setTimeout(() => document.getElementById(id).classList.add('active'), 30);
-}
-
-function startGame() {
-  gameChars = shuffle(allCharacters).slice(0, MAX_ROUNDS);
-  round = 0; totalScore = 0; totalCorrect = 0;
-  show('s-game');
-  setTimeout(loadRound, 80);
-}
-
-function loadRound() {
-  currentChar = gameChars[round];
-  cluesShown = 1; attemptsUsed = 0; roundDone = false;
-
-  document.getElementById('prog').style.width = (round / MAX_ROUNDS * 100) + '%';
-  document.getElementById('round-label').textContent = `Round ${round + 1} of ${MAX_ROUNDS}`;
-  document.getElementById('score-label').textContent = `Score: ${totalScore}`;
-  document.getElementById('feedback').className = 'feedback';
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('guess-input').value = '';
-  document.getElementById('guess-input').className = 'guess-input';
-
-  renderClues();
-  renderAttempts();
-  updateRevealBtn();
-  updateHintsLeft();
-}
-
-const ptColors = ['pts-5','pts-4','pts-3','pts-2','pts-1'];
-
-function renderClues() {
-  const area = document.getElementById('clues-area');
-  area.innerHTML = '';
-  for (let i = 0; i < cluesShown; i++) {
-    const pts = Math.max(1, 5 - i);
-    const div = document.createElement('div');
-    div.className = 'clue-item';
-    div.innerHTML = `<div class="clue-label" style="color:var(--text-muted)">Clue ${i+1} <span class="pts-badge ${ptColors[i]}">${pts} pt${pts!==1?'s':''} to guess now</span></div>${currentChar.clues[i]}`;
-    area.appendChild(div);
-  }
-}
-
-function renderAttempts() {
-  const row = document.getElementById('attempts-row');
-  row.innerHTML = '';
-  for (let i = 0; i < MAX_ATTEMPTS; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'attempt-dot' + (i < attemptsUsed ? ' used' : '');
-    row.appendChild(dot);
-  }
-}
-
-function updateRevealBtn() {
-  const btn = document.getElementById('reveal-btn');
-  const maxClues = Math.min(MAX_CLUES, currentChar.clues.length);
-  btn.disabled = cluesShown >= maxClues || roundDone;
-  if (cluesShown >= maxClues) {
-    btn.textContent = 'All clues shown';
-  } else {
-    const nextPts = Math.max(1, 5 - cluesShown);
-    btn.textContent = `Show next clue → guess will be worth ${nextPts} pt${nextPts!==1?'s':''}`;
-  }
-}
-
-function updateHintsLeft() {
-  const maxClues = Math.min(MAX_CLUES, currentChar.clues.length);
-  const remaining = maxClues - cluesShown;
-  document.getElementById('hints-left').textContent = remaining > 0
-    ? `${remaining} more clue${remaining!==1?'s':''} available`
-    : '';
-}
-
-function revealNextClue() {
-  if (cluesShown >= Math.min(MAX_CLUES, currentChar.clues.length) || roundDone) return;
-  cluesShown++;
-  renderClues();
-  updateRevealBtn();
-  updateHintsLeft();
-}
-
-function submitGuess() {
-  if (roundDone) return;
-  const input = document.getElementById('guess-input');
-  const raw = input.value.trim().toLowerCase();
-  if (!raw) return;
-
-  const answer = currentChar.name.toLowerCase().replace(/_/g,' ');
-  const correct = raw === answer || raw === answer.replace(' magdalene','') && answer.includes('magdalene') === false;
-  const exactMatch = raw === answer;
-
-  if (exactMatch) {
-    const pts = Math.max(1, 5 - (cluesShown - 1));
-    totalScore += pts; totalCorrect++;
-    roundDone = true;
-    input.className = 'guess-input correct';
-    showFeedback('correct', `✓ Correct! +${pts} point${pts!==1?'s':''}`);
-    const dots = document.querySelectorAll('.attempt-dot');
-    if (dots[attemptsUsed]) dots[attemptsUsed].className = 'attempt-dot correct';
-    setTimeout(() => showRoundResult(true, pts), 900);
-  } else {
-    attemptsUsed++;
-    input.className = 'guess-input wrong';
-    setTimeout(() => { input.className = 'guess-input'; }, 400);
-    renderAttempts();
-    if (attemptsUsed < MAX_ATTEMPTS) {
-      showFeedback('wrong', `✗ Not quite — ${MAX_ATTEMPTS - attemptsUsed} attempt${MAX_ATTEMPTS-attemptsUsed!==1?'s':''} left`);
-    } else {
-      roundDone = true;
-      showFeedback('reveal', `The answer was ${currentChar.name.replace(/_/g,' ')}`);
-      setTimeout(() => showRoundResult(false, 0), 1100);
-    }
-  }
-  input.value = '';
-}
-
-function showFeedback(type, msg) {
-  const f = document.getElementById('feedback');
-  f.className = 'feedback ' + type;
-  f.textContent = msg;
-}
-
-function showRoundResult(won, pts) {
-  document.getElementById('rr-icon').textContent = currentChar.icon;
-  document.getElementById('rr-name').textContent = currentChar.name.replace(/_/g,' ');
-  document.getElementById('rr-pts').innerHTML = won
-    ? `<strong style="color:var(--gold)">+${pts} point${pts!==1?'s':''}</strong> · Total: ${totalScore}`
-    : `0 points · Total: ${totalScore}`;
-  document.getElementById('rr-fact').textContent = currentChar.fact;
-  document.getElementById('rr-next-btn').textContent =
-    round + 1 < MAX_ROUNDS ? 'Next character →' : 'See final score →';
-  show('s-round-result');
-}
-
-function nextRound() {
-  round++;
-  if (round >= MAX_ROUNDS) { showFinal(); return; }
-  show('s-game');
-  setTimeout(loadRound, 80);
-}
-
-function showFinal() {
-  const pct = Math.round((totalScore / (MAX_ROUNDS * 5)) * 100);
-  let msg = '';
-  if (pct >= 90) msg = 'Outstanding — you know your Bible inside out. 🏆';
-  else if (pct >= 70) msg = 'Great job! You know the stories well.';
-  else if (pct >= 50) msg = 'Good effort! Keep studying — you\'re getting there.';
-  else if (pct >= 30) msg = 'Not bad! There\'s so much more to discover.';
-  else msg = 'Every character has an incredible story — keep reading. 📖';
-
-  document.getElementById('final-sub').textContent = msg;
-  document.getElementById('final-score').textContent = totalScore;
-  document.getElementById('final-correct').textContent = totalCorrect;
-  show('s-final');
+const container = document.getElementById('particles');
+for (let i = 0; i < 18; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.style.cssText = `
+    left: ${Math.random() * 100}%;
+    width: ${Math.random() > 0.7 ? 3 : 2}px;
+    height: ${Math.random() > 0.7 ? 3 : 2}px;
+    animation-duration: ${12 + Math.random() * 20}s;
+    animation-delay: ${Math.random() * 15}s;
+  `;
+  container.appendChild(p);
 }
 </script>
 </body>

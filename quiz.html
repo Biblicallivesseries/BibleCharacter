@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Which Bible Character Are You? | BiblicalLivesSeries</title>
+<meta name="description" content="10 questions reveal which biblical figure you're most like — Jesus, David, Esther, Paul, and 12 more. From @BiblicalLivesSeries."/>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GL0DWYDYES"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GL0DWYDYES');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D08A;
+    --dark: #0E0C0A;
+    --dark2: #1A1713;
+    --dark3: #252118;
+    --parchment: #F5EFE0;
+    --parchment2: #EDE5CE;
+    --text: #F0E8D5;
+    --text-muted: #A89880;
+    --radius: 12px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem 1rem 4rem;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -40%;
+    left: -20%;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -30%;
+    right: -10%;
+    width: 50%;
+    height: 60%;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 560px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .brand {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .divider-line {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.4;
+    margin: 8px auto;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeUp 0.5s ease both; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* INTRO */
+  .intro-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 8vw, 3rem);
+    font-weight: 600;
+    line-height: 1.15;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--parchment);
+  }
+
+  .intro-title span { color: var(--gold); }
+
+  .intro-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .characters-preview {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 2.5rem;
+  }
+
+  .char-pill {
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--text-muted);
+    background: rgba(201,168,76,0.05);
+  }
+
+  /* BUTTONS */
+  .btn-primary {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background: var(--gold);
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-secondary {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 10px;
+  }
+
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+
+  /* QUIZ */
+  .progress-wrap {
+    margin-bottom: 2rem;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .progress-track {
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .question-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.25rem, 5vw, 1.6rem);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--parchment);
+    margin-bottom: 1.5rem;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .opt {
+    background: var(--dark2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: left;
+    line-height: 1.5;
+    transition: all 0.18s;
+    position: relative;
+  }
+
+  .opt:hover {
+    border-color: rgba(201,168,76,0.3);
+    color: var(--text);
+    background: var(--dark3);
+  }
+
+  .opt.selected {
+    border-color: var(--gold);
+    color: var(--parchment);
+    background: rgba(201,168,76,0.08);
+  }
+
+  .opt.selected::before {
+    content: '✓';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 12px;
+  }
+
+  /* RESULT */
+  .result-card {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .result-icon {
+    font-size: 52px;
+    margin-bottom: 1rem;
+    display: block;
+    animation: iconPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  @keyframes iconPop {
+    from { transform: scale(0.5); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+
+  .result-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .result-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 7vw, 2.4rem);
+    font-weight: 600;
+    color: var(--parchment);
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+
+  .result-verse {
+    font-size: 12px;
+    color: var(--gold);
+    font-style: italic;
+    margin-bottom: 1.25rem;
+    opacity: 0.8;
+  }
+
+  .result-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+    text-align: left;
+  }
+
+  .traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .trait {
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+
+  .cta-box {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+
+  .cta-box p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+
+  .cta-box strong {
+    color: var(--parchment);
+    font-weight: 500;
+  }
+
+  .tiktok-handle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--gold);
+    font-weight: 600;
+    display: block;
+    margin-top: 6px;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 11px;
+    color: rgba(168,152,128,0.4);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="brand">
+    <div class="brand-name">BiblicalLivesSeries</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="screen active" id="s-intro">
+    <h1 class="intro-title">Which Bible<br/><span>character</span><br/>are you?</h1>
+    <p class="intro-sub">10 questions reveal which biblical figure you're most like — from Jesus and David to Esther, Ruth, and beyond.</p>
+    <div class="characters-preview">
+      <span class="char-pill">Jesus</span>
+      <span class="char-pill">David</span>
+      <span class="char-pill">Esther</span>
+      <span class="char-pill">Paul</span>
+      <span class="char-pill">Moses</span>
+      <span class="char-pill">Ruth</span>
+      <span class="char-pill">Peter</span>
+      <span class="char-pill">Mary Magdalene</span>
+      <span class="char-pill">Elijah</span>
+      <span class="char-pill">Joseph</span>
+      <span class="char-pill">Deborah</span>
+      <span class="char-pill">Gideon</span>
+      <span class="char-pill">Thomas</span>
+      <span class="char-pill">Samson</span>
+      <span class="char-pill">Jonah</span>
+      <span class="char-pill">Solomon</span>
+    </div>
+    <button class="btn-primary" onclick="startQuiz()">Start the quiz →</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="screen" id="s-quiz">
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span id="q-num">Question 1 of 10</span>
+        <span id="q-pct">0%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+    </div>
+    <div class="question-text" id="q-text"></div>
+    <div class="options" id="q-opts"></div>
+    <button class="btn-primary" id="next-btn" style="display:none" onclick="nextQ()">Next →</button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="s-result">
+    <div class="result-card">
+      <span class="result-icon" id="r-icon"></span>
+      <div class="result-label">You are most like</div>
+      <div class="result-name" id="r-name"></div>
+      <div class="result-verse" id="r-verse"></div>
+      <div class="result-desc" id="r-desc"></div>
+      <div class="traits" id="r-traits"></div>
+    </div>
+    <div class="cta-box">
+      <p>Watch their story come alive — animated Bible series on TikTok</p>
+      <span class="tiktok-handle">@BiblicalLivesSeries</span>
+    </div>
+    <button class="btn-primary" onclick="restart()">↩ Take the quiz again</button>
+  </div>
+</div>
+
+<div class="footer">© BiblicalLivesSeries — All rights reserved</div>
+
+<script>
+const questions = [
+  {
+    text: "When life gets hard, your first instinct is to…",
+    opts: [
+      { text: "Pray and seek God quietly", chars: ["Jesus","Mary_Magdalene","Esther"] },
+      { text: "Fight back and trust God will cover me", chars: ["David","Samson","Gideon"] },
+      { text: "Step up and lead — someone has to", chars: ["Moses","Deborah","Paul"] },
+      { text: "Wrestle with doubt before finding faith", chars: ["Thomas","Jonah","Peter"] }
+    ]
+  },
+  {
+    text: "People who know you well would say you are…",
+    opts: [
+      { text: "Compassionate and deeply loving", chars: ["Jesus","Mary_Magdalene","Ruth"] },
+      { text: "Bold, passionate, and sometimes impulsive", chars: ["Peter","Samson","David"] },
+      { text: "Strategic, wise, and quietly courageous", chars: ["Esther","Joseph","Solomon"] },
+      { text: "Relentless, intellectual, and mission-driven", chars: ["Paul","Moses","Deborah"] }
+    ]
+  },
+  {
+    text: "Your greatest strength is…",
+    opts: [
+      { text: "Loving people others have given up on", chars: ["Jesus","Mary_Magdalene","Ruth"] },
+      { text: "Loyalty — you don't abandon people", chars: ["Ruth","Jonathan","Peter"] },
+      { text: "Courage to stand alone when it matters", chars: ["Esther","Elijah","Gideon"] },
+      { text: "Turning your past pain into a greater purpose", chars: ["Joseph","Paul","David"] }
+    ]
+  },
+  {
+    text: "What role do you naturally fall into in a group?",
+    opts: [
+      { text: "The one who listens and makes everyone feel seen", chars: ["Jesus","Mary_Magdalene","Ruth"] },
+      { text: "The leader people look to in a crisis", chars: ["Moses","Deborah","Esther"] },
+      { text: "The creative one — storyteller, artist, poet", chars: ["David","Solomon"] },
+      { text: "The teacher or analyst who digs deeper than anyone", chars: ["Paul","Solomon","Thomas"] }
+    ]
+  },
+  {
+    text: "How do you handle failure or a big mistake?",
+    opts: [
+      { text: "I feel it deeply but eventually find grace and move forward", chars: ["Peter","David","Mary_Magdalene"] },
+      { text: "I push through — failure doesn't define me", chars: ["Paul","Moses","Esther"] },
+      { text: "I wrestle with it for a long time before healing", chars: ["Jonah","Thomas","Samson"] },
+      { text: "I turn it into fuel — my story becomes my message", chars: ["Joseph","David","Paul"] }
+    ]
+  },
+  {
+    text: "What matters most to you in life?",
+    opts: [
+      { text: "Deep relationship with God above everything", chars: ["Jesus","Mary_Magdalene","Elijah"] },
+      { text: "Justice — standing up for what's right", chars: ["Deborah","Moses","Esther"] },
+      { text: "Family, loyalty, and belonging", chars: ["Ruth","Joseph"] },
+      { text: "Purpose — knowing your life counts for something", chars: ["Paul","Gideon","Samson"] }
+    ]
+  },
+  {
+    text: "When God calls you to something scary, you…",
+    opts: [
+      { text: "Say yes immediately — faith over fear", chars: ["Mary_Magdalene","Esther","Ruth"] },
+      { text: "Ask questions first, then obey", chars: ["Gideon","Thomas","Moses"] },
+      { text: "Run the other way at first", chars: ["Jonah","Peter","Samson"] },
+      { text: "Count the cost, then commit completely", chars: ["Paul","Deborah","Joseph"] }
+    ]
+  },
+  {
+    text: "Your biggest internal struggle is…",
+    opts: [
+      { text: "Feeling overlooked or underestimated", chars: ["Gideon","Esther","Joseph"] },
+      { text: "Pride or overconfidence in your own strength", chars: ["Samson","Peter","Solomon"] },
+      { text: "Doubt and needing proof before you believe", chars: ["Thomas","Jonah","Gideon"] },
+      { text: "Holding grudges or staying angry", chars: ["Jonah","David","Samson"] }
+    ]
+  },
+  {
+    text: "Which environment do you feel most alive in?",
+    opts: [
+      { text: "Quiet places — prayer, reflection, solitude", chars: ["Jesus","Elijah","Mary_Magdalene"] },
+      { text: "The middle of the action — leading, doing, building", chars: ["Paul","Deborah","Moses"] },
+      { text: "Creative spaces — music, writing, expression", chars: ["David","Solomon"] },
+      { text: "With people — serving, caring, being present", chars: ["Ruth","Peter","Mary_Magdalene"] }
+    ]
+  },
+  {
+    text: "What is your relationship with suffering?",
+    opts: [
+      { text: "It shaped me — I wouldn't be who I am without it", chars: ["Joseph","Paul","David"] },
+      { text: "I endure it quietly with faith", chars: ["Jesus","Esther","Ruth"] },
+      { text: "I question God through it but keep going", chars: ["Elijah","Thomas","Jonah"] },
+      { text: "I've let it drive me to do something meaningful", chars: ["Gideon","Moses","Deborah"] }
+    ]
+  }
+];
+
+const characters = {
+  Jesus:         { icon:"✝️",  verse:"John 13:34", desc:"You carry others' pain as if it were your own. Compassionate, deeply present, and spiritually rooted — you love people without conditions and see the best in everyone even when they've failed. You feel called to something far greater than comfort.", traits:["Compassionate","Selfless","Spiritually deep","Servant-hearted"] },
+  Paul:          { icon:"⛓️",  verse:"Phil 4:13",  desc:"Driven, intellectual, and transformed by grace. You were shaped by your past — maybe even by mistakes — but you've turned all of it into mission. People are moved by how much you've changed and how hard you work for what you believe.", traits:["Mission-driven","Resilient","Intellectual","Transformed"] },
+  David:         { icon:"🎵",  verse:"Ps 23:1",    desc:"Creative, passionate, and deeply human. You love hard, sin hard, and repent hard. Your life is a song — highs and lows — and your vulnerability is actually your greatest weapon. God calls you a person after His own heart.", traits:["Creative","Passionate","Repentant","Courageous"] },
+  Esther:        { icon:"👑",  verse:"Est 4:14",   desc:"Quietly strategic and deeply brave. You don't rush to the spotlight, but when the moment demands it you show up fully — even at great personal cost. You were put in your position for a reason, and somewhere inside you know it.", traits:["Strategic","Courageous","Graceful","Purposeful"] },
+  Moses:         { icon:"🌿",  verse:"Ex 3:12",    desc:"Reluctant leader, but undeniably called. You feel inadequate for the task — you always have — but God keeps showing up anyway. You're slow to speak but mighty when you do, and you carry the weight of the people you lead deeply.", traits:["Humble","Called","Perseverant","Prophetic"] },
+  Joseph:        { icon:"🌈",  verse:"Gen 50:20",  desc:"Your story looks like betrayal and loss from the outside — but you've held onto faith through all of it. You believe God is working even when nothing makes sense. And you're right. Your suffering has a destination.", traits:["Faithful","Forgiving","Patient","Visionary"] },
+  Peter:         { icon:"🪨",  verse:"Matt 16:18", desc:"Bold, impulsive, and fiercely loyal — even when you fail, you get back up. You speak before you think, act before you plan, and love with everything. You've denied and you've wept — and you've been restored. You're the rock God always saw.", traits:["Bold","Loyal","Impulsive","Restored"] },
+  Mary_Magdalene:{ icon:"🕊️", verse:"John 20:18", desc:"You've been through things people don't talk about. But you're still here — showing up when others ran away. Your devotion is unmatched and your story is one of the most powerful in all of Scripture. You were the first to see the resurrection.", traits:["Devoted","Courageous","Redeemed","Faithful"] },
+  Ruth:          { icon:"🌾",  verse:"Ruth 1:16",  desc:"Loyalty is your love language. You stay when it costs you, love without asking for anything back, and build your life around the people you've chosen. You crossed borders — literally or figuratively — to be where you belong.", traits:["Loyal","Selfless","Resilient","Steadfast"] },
+  Elijah:        { icon:"🔥",  verse:"1 Kings 18:21", desc:"You've stood alone on mountains and declared truth when no one was listening. But you've also collapsed under a tree and begged to be done. You are both wildfire and exhaustion — and God meets you in both.", traits:["Prophetic","Passionate","Isolated","Powerful"] },
+  Gideon:        { icon:"🪔",  verse:"Judg 6:12",  desc:"You feel like the least likely person to be used by God — and that's exactly why He chose you. You needed signs, you needed proof, and God gave them to you. Your story is proof that God uses the unlikely.", traits:["Unlikely hero","Doubter","Obedient","Victorious"] },
+  Thomas:        { icon:"🔎",  verse:"John 20:29", desc:"You need to understand before you believe — and there's nothing wrong with that. You ask the hard questions others are afraid to ask. When you finally believe, it's with everything: 'My Lord and my God.'", traits:["Analytical","Honest","Deep faith","Truth-seeker"] },
+  Deborah:       { icon:"⚖️",  verse:"Judg 4:14",  desc:"Leader, judge, prophet — you carry all three without needing permission. You rise to the moment and bring others with you. You don't wait for someone else to act. You are the someone else.", traits:["Leader","Prophetic","Bold","Justice-driven"] },
+  Samson:        { icon:"💪",  verse:"Judg 16:28", desc:"You have an extraordinary gift — but you've fought battles internally as much as externally. Your strength has been misused and your calling nearly lost. But your greatest moment came at the very end when you finally surrendered.", traits:["Gifted","Flawed","Redeemed","Powerful"] },
+  Jonah:         { icon:"🐋",  verse:"Jon 2:2",    desc:"You've run from what God was asking you to do. Maybe more than once. You're honest about your reluctance — sometimes brutally so. But even in the belly of your biggest failure, God found you and brought you back.", traits:["Reluctant","Honest","Stubborn","Restored"] },
+  Solomon:       { icon:"📜",  verse:"1 Kings 3:9", desc:"You are the one people come to with the hard questions. Wisdom flows through you — sometimes before you've even fully thought it through. You've also seen what chasing the world gets you. Meaning is found elsewhere.", traits:["Wise","Intellectual","Reflective","Gifted"] },
+  Jonathan:      { icon:"🏹",  verse:"1 Sam 18:3", desc:"You chose loyalty over personal gain — even when it cost you everything. Jonathan gave up a throne for friendship, for what was right. You're the kind of person who lifts others even when you could have climbed instead.", traits:["Loyal","Selfless","Noble","Courageous"] }
+};
+
+let scores = {};
+let current = 0;
+let selected = null;
+
+function startQuiz() {
+  Object.keys(characters).forEach(c => scores[c] = 0);
+  current = 0;
+  selected = null;
+  document.getElementById('s-intro').classList.remove('active');
+  document.getElementById('s-quiz').classList.add('active');
+  renderQ();
+}
+
+function renderQ() {
+  selected = null;
+  const q = questions[current];
+  const pct = Math.round((current / questions.length) * 100);
+  document.getElementById('q-num').textContent = `Question ${current + 1} of ${questions.length}`;
+  document.getElementById('q-pct').textContent = pct + '%';
+  document.getElementById('prog').style.width = pct + '%';
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('next-btn').style.display = 'none';
+  document.getElementById('q-opts').innerHTML = q.opts.map((o, i) =>
+    `<button class="opt" onclick="pick(this,${i})">${o.text}</button>`
+  ).join('');
+}
+
+function pick(el, idx) {
+  document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selected = idx;
+  questions[current].opts[idx].chars.forEach(c => {
+    if (scores[c] !== undefined) scores[c] += 1;
+  });
+  const btn = document.getElementById('next-btn');
+  btn.style.display = 'block';
+  btn.textContent = current < questions.length - 1 ? 'Next →' : 'See my result →';
+}
+
+function nextQ() {
+  if (selected === null) return;
+  current++;
+  if (current >= questions.length) showResult();
+  else { document.getElementById('s-quiz').classList.remove('active'); setTimeout(() => { document.getElementById('s-quiz').classList.add('active'); renderQ(); }, 50); }
+}
+
+function showResult() {
+  const top = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+  const c = characters[top];
+  const name = top.replace('_', ' ');
+  document.getElementById('prog').style.width = '100%';
+  document.getElementById('q-pct').textContent = '100%';
+  document.getElementById('s-quiz').classList.remove('active');
+  setTimeout(() => {
+    document.getElementById('r-icon').textContent = c.icon;
+    document.getElementById('r-name').textContent = name;
+    document.getElementById('r-verse').textContent = `Key verse: ${c.verse}`;
+    document.getElementById('r-desc').textContent = c.desc;
+    document.getElementById('r-traits').innerHTML = c.traits.map(t => `<span class="trait">${t}</span>`).join('');
+    document.getElementById('s-result').classList.add('active');
+  }, 100);
+}
+
+function restart() {
+  scores = {};
+  current = 0;
+  selected = null;
+  document.getElementById('s-result').classList.remove('active');
+  setTimeout(() => { document.getElementById('s-intro').classList.add('active'); }, 50);
+}
+</script>
+</body>
+</html>
