@@ -1,16 +1,8 @@
 <!--
   ============================================================
   © BiblicalLivesSeries — All Rights Reserved
-  
-  This code and its contents are the intellectual property
-  of BiblicalLivesSeries. Unauthorized copying, reproduction,
-  modification, or distribution of this file, in whole or
-  in part, is strictly prohibited without prior written
-  permission from the owner.
-  
   Website : biblicallivesseries.github.io/BibleCharacter
   TikTok  : @BiblicalLivesSeries
-  YouTube : @BiblicalLivesSeries
   ============================================================
 -->
 <!DOCTYPE html>
@@ -19,128 +11,184 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Bible Trivia Blitz ⚡ | BiblicalLivesSeries</title>
-<meta name="description" content="10 questions. 10 seconds each. How fast do you know your Bible?"/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GL0DWYDYES"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-GL0DWYDYES');</script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--gold:#C9A84C;--gold-light:#E8D08A;--gold-dim:rgba(201,168,76,0.15);--dark:#0A0906;--dark2:#111009;--parchment:#F5EFE0;--text:#E8DFC8;--muted:#7A6D58;--correct:#6DBE47;--wrong:#E24B4A}
+:root{--gold:#C9A84C;--gold-light:#E8D08A;--dark:#0A0906;--dark2:#111009;--parchment:#F5EFE0;--text:#E8DFC8;--muted:#7A6D58;--correct:#6DBE47;--wrong:#E24B4A;--combo:#FF9500}
 
-body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0;position:relative;overflow-x:hidden}
-
-/* SCANLINES */
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);pointer-events:none;z-index:10}
-
-/* ARCADE GLOW */
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 4px);pointer-events:none;z-index:10}
 body::after{content:'';position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent);z-index:20;box-shadow:0 0 20px rgba(201,168,76,0.6)}
 
-.page{width:100%;max-width:560px;position:relative;z-index:1;padding:0 1rem 4rem}
+.arcade-header{background:#111009;border-bottom:2px solid var(--gold);padding:0;text-align:center;width:100%;position:relative}
+.arcade-brand{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:0.3em;color:var(--gold);opacity:0.6;padding-top:10px}
+.arcade-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,10vw,3.5rem);color:var(--parchment);letter-spacing:0.05em;line-height:0.9;text-shadow:0 0 30px rgba(201,168,76,0.3)}
+.arcade-title span{color:var(--gold)}
+.arcade-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.15em;padding-bottom:10px}
 
-/* HEADER MARQUEE STYLE */
-.arcade-header{background:var(--dark2);border-bottom:2px solid var(--gold);padding:12px 1rem;text-align:center;margin-bottom:0;width:100%;position:relative}
-.arcade-brand{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:0.3em;color:var(--gold);opacity:0.7}
-.arcade-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,12vw,4rem);color:var(--parchment);letter-spacing:0.05em;line-height:0.9;text-shadow:0 0 30px rgba(201,168,76,0.3)}
-.arcade-title span{color:var(--gold);text-shadow:0 0 20px rgba(201,168,76,0.5)}
-.arcade-sub{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.15em;margin-top:4px}
-
-/* BLINKING CURSOR */
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 .blink{animation:blink 1s step-end infinite}
 
-.screen{display:none}.screen.active{display:block}
+.page{width:100%;max-width:560px;position:relative;z-index:1;padding:0 1rem 4rem}
+.screen{display:none}.screen.active{display:block;animation:fadeUp 0.3s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* INTRO */
-.intro-body{padding:1.5rem 0}
-.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:1.5rem}
-.stat-box{background:var(--dark2);border:1px solid rgba(201,168,76,0.2);padding:10px 6px;text-align:center}
-.stat-box-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);line-height:1}
-.stat-box-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px}
+.intro-body{padding:1.25rem 0}
+.pb-badge{display:flex;align-items:center;justify-content:space-between;background:var(--dark2);border:1px solid rgba(201,168,76,0.2);padding:8px 14px;margin-bottom:1rem}
+.pb-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em}
+.pb-val{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gold)}
 
-.cat-grid{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:1.5rem}
-.cat-tag{font-family:'DM Mono',monospace;font-size:10px;padding:3px 8px;border:1px solid rgba(201,168,76,0.25);color:var(--muted);letter-spacing:0.08em}
+.difficulty-row{display:flex;gap:6px;margin-bottom:1rem}
+.diff-btn{flex:1;padding:10px 6px;background:var(--dark2);border:1px solid rgba(201,168,76,0.15);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--muted);cursor:pointer;transition:all 0.15s;text-align:center}
+.diff-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+.diff-btn:hover:not(.active){border-color:rgba(201,168,76,0.4);color:var(--text)}
+.diff-label{font-size:9px;display:block;margin-top:2px;opacity:0.7}
 
-.start-btn{width:100%;padding:16px;background:var(--gold);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.15em;border:none;cursor:pointer;transition:all 0.15s;position:relative;overflow:hidden}
-.start-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.1) 0%,transparent 50%)}
-.start-btn:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,0.3)}
+.cat-select{margin-bottom:1rem}
+.cat-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.cat-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
+.cat-all-btn{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);background:none;border:none;cursor:pointer;letter-spacing:0.06em}
+.cat-chips{display:flex;flex-wrap:wrap;gap:5px}
+.cat-chip{font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border:1px solid rgba(201,168,76,0.2);color:var(--muted);cursor:pointer;transition:all 0.12s;background:var(--dark2)}
+.cat-chip.on{background:rgba(201,168,76,0.15);border-color:var(--gold);color:var(--gold)}
 
-/* GAME SCREEN */
-.game-body{padding:0}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:1rem}
+.stat-box{background:var(--dark2);border:1px solid rgba(201,168,76,0.15);padding:8px 4px;text-align:center}
+.stat-box-num{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);line-height:1}
+.stat-box-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:0.08em;margin-top:1px}
 
-.score-bar{background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.15);padding:10px 1rem;display:flex;justify-content:space-between;align-items:center;margin:0 -1rem 1.25rem}
-.score-val{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);letter-spacing:0.05em}
-.score-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
+.start-btn{width:100%;padding:15px;background:var(--gold);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.15em;border:none;cursor:pointer;transition:all 0.15s;position:relative;overflow:hidden}
+.start-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent 50%)}
+.start-btn:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,168,76,0.3)}
 
-/* GIANT TIMER */
-.timer-display{text-align:center;margin-bottom:1rem;position:relative}
-.timer-ring{width:100px;height:100px;margin:0 auto 8px;position:relative}
+.lifeline-info{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-align:center;margin-top:8px;letter-spacing:0.06em}
+
+/* GAME */
+.score-bar{background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.12);padding:8px 1rem;display:flex;justify-content:space-between;align-items:center;margin:0 -1rem 1rem}
+.score-group{text-align:center}
+.score-lbl{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
+.score-val{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);letter-spacing:0.05em;transition:all 0.1s}
+.score-val.bump{transform:scale(1.3);color:var(--gold-light)}
+.combo-val{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--combo);letter-spacing:0.05em}
+.pb-indicator{font-family:'DM Mono',monospace;font-size:8px;color:var(--correct);letter-spacing:0.08em;display:none}
+.pb-indicator.show{display:block}
+
+.timer-wrap{margin-bottom:1rem}
+.timer-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.timer-display{position:relative;display:inline-block}
+.timer-ring{width:80px;height:80px}
 .timer-svg{transform:rotate(-90deg)}
-.timer-track{fill:none;stroke:rgba(201,168,76,0.12);stroke-width:4}
-.timer-arc{fill:none;stroke:var(--gold);stroke-width:4;stroke-linecap:round;stroke-dasharray:283;stroke-dashoffset:0;transition:stroke-dashoffset 0.1s linear,stroke 0.3s}
+.timer-track{fill:none;stroke:rgba(201,168,76,0.1);stroke-width:5}
+.timer-arc{fill:none;stroke:var(--gold);stroke-width:5;stroke-linecap:round;stroke-dasharray:220;stroke-dashoffset:0;transition:stroke-dashoffset 0.1s linear,stroke 0.3s}
 .timer-arc.danger{stroke:var(--wrong)}
-.timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--gold);transition:color 0.3s}
-.timer-num.danger{color:var(--wrong);text-shadow:0 0 20px rgba(226,75,74,0.5)}
+.timer-arc.warning{stroke:var(--combo)}
+.timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);transition:color 0.3s}
+.timer-num.danger{color:var(--wrong);text-shadow:0 0 15px rgba(226,75,74,0.6)}
+.timer-num.warning{color:var(--combo)}
 
-.q-counter{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.12em;text-align:center;margin-bottom:6px}
-.streak-pills{display:flex;gap:4px;justify-content:center;margin-bottom:1rem}
-.streak-pill{width:20px;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;transition:all 0.2s}
-.streak-pill.hit{background:var(--correct);box-shadow:0 0 6px rgba(109,190,71,0.5)}
-.streak-pill.miss{background:var(--wrong)}
+.lifelines-row{display:flex;gap:6px;margin-bottom:1rem}
+.lifeline-btn{flex:1;padding:8px;background:var(--dark2);border:1px solid rgba(201,168,76,0.2);font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);cursor:pointer;transition:all 0.15s;letter-spacing:0.04em;text-align:center}
+.lifeline-btn:hover:not(:disabled){background:rgba(201,168,76,0.1);border-color:var(--gold)}
+.lifeline-btn:disabled{opacity:0.25;cursor:default;color:var(--muted);border-color:rgba(255,255,255,0.06)}
+.lifeline-btn.used{opacity:0.2;cursor:default;text-decoration:line-through}
 
-.q-cat-badge{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--gold);background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);padding:3px 10px;display:inline-block;margin-bottom:10px}
-.q-text{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,5vw,1.9rem);color:var(--parchment);line-height:1.2;margin-bottom:1.25rem;min-height:56px;letter-spacing:0.02em}
+.streak-bar{display:flex;gap:3px;justify-content:center;margin-bottom:0.75rem}
+.s-pill{flex:1;height:4px;background:rgba(255,255,255,0.07);border-radius:2px;transition:all 0.2s;max-width:44px}
+.s-pill.hit{background:var(--correct);box-shadow:0 0 4px rgba(109,190,71,0.5)}
+.s-pill.miss{background:var(--wrong)}
 
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:0.75rem}
-.opt{background:var(--dark2);border:1px solid rgba(201,168,76,0.15);padding:14px 12px;cursor:pointer;font-family:'DM Mono',monospace;font-size:12px;color:var(--text);text-align:left;transition:all 0.12s;letter-spacing:0.04em;line-height:1.4;position:relative}
-.opt::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:background 0.15s}
-.opt:hover:not(:disabled){border-color:var(--gold);color:var(--parchment)}.opt:hover:not(:disabled)::before{background:var(--gold)}
-.opt.correct{border-color:var(--correct);color:var(--correct);background:rgba(109,190,71,0.06)}.opt.correct::before{background:var(--correct)}
-.opt.wrong{border-color:var(--wrong);color:var(--wrong);background:rgba(226,75,74,0.06)}.opt.wrong::before{background:var(--wrong)}
-.opt.reveal{border-color:var(--correct);color:var(--correct);background:rgba(109,190,71,0.04)}.opt.reveal::before{background:var(--correct)}
-.opt:disabled{cursor:default}
+.q-meta-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.q-counter{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em}
+.q-cat-badge{font-family:'DM Mono',monospace;font-size:10px;padding:2px 8px;border:1px solid rgba(201,168,76,0.2);color:var(--gold);letter-spacing:0.08em}
+.q-text{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.2rem,4.5vw,1.7rem);color:var(--parchment);line-height:1.2;margin-bottom:0.75rem;min-height:50px;letter-spacing:0.02em}
 
-.feedback-line{font-family:'DM Mono',monospace;font-size:12px;text-align:center;height:24px;display:flex;align-items:center;justify-content:center;letter-spacing:0.06em;opacity:0;transition:opacity 0.2s}
+/* FACT BANNER */
+.fact-banner{background:rgba(201,168,76,0.06);border-left:3px solid var(--gold);padding:8px 12px;margin-bottom:0.75rem;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:1.5;letter-spacing:0.04em;display:none;animation:slideIn 0.3s ease both}
+.fact-banner.show{display:block}
+@keyframes slideIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
+
+.feedback-line{font-family:'DM Mono',monospace;font-size:11px;text-align:center;height:22px;display:flex;align-items:center;justify-content:center;letter-spacing:0.06em;opacity:0;transition:opacity 0.2s;margin-bottom:6px}
 .feedback-line.show{opacity:1}
 .feedback-line.correct{color:var(--correct)}
 .feedback-line.wrong{color:var(--wrong)}
-.feedback-line.streak{color:var(--gold)}
+.feedback-line.streak,.feedback-line.combo{color:var(--combo)}
 .feedback-line.timeout{color:var(--muted)}
 
+/* ENCOURAGING MESSAGES */
+.encourage{font-family:'DM Mono',monospace;font-size:10px;color:rgba(201,168,76,0.5);text-align:center;height:16px;margin-bottom:6px;letter-spacing:0.04em;animation:fadeMsg 0.4s ease both}
+@keyframes fadeMsg{from{opacity:0}to{opacity:1}}
+
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:0.5rem}
+.opt{background:var(--dark2);border:1px solid rgba(201,168,76,0.12);padding:13px 10px;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;color:var(--text);text-align:left;transition:all 0.12s;letter-spacing:0.03em;line-height:1.4;position:relative;overflow:hidden}
+.opt::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:background 0.15s}
+.opt:hover:not(:disabled){border-color:rgba(201,168,76,0.35);color:var(--parchment)}.opt:hover:not(:disabled)::before{background:var(--gold)}
+.opt.correct{border-color:var(--correct);color:var(--correct);background:rgba(109,190,71,0.07)}.opt.correct::before{background:var(--correct)}
+.opt.wrong{border-color:var(--wrong);color:var(--wrong);background:rgba(226,75,74,0.07)}.opt.wrong::before{background:var(--wrong)}
+.opt.reveal{border-color:var(--correct);color:var(--correct);background:rgba(109,190,71,0.05)}.opt.reveal::before{background:var(--correct)}
+.opt.hidden-50{opacity:0.15;pointer-events:none}
+.opt:disabled{cursor:default}
+
+/* COMBO FLASH */
+.combo-flash{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--combo);text-shadow:0 0 30px rgba(255,149,0,0.6);pointer-events:none;z-index:100;opacity:0;animation:comboAnim 0.8s ease both}
+@keyframes comboAnim{0%{opacity:0;transform:translate(-50%,-50%) scale(0.5)}30%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}70%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-60%) scale(0.9)}}
+
 /* RESULT */
-.result-body{padding:1.5rem 0;text-align:center}
-.result-score-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px}
-.result-score{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,20vw,8rem);color:var(--gold);line-height:0.9;text-shadow:0 0 40px rgba(201,168,76,0.3);margin-bottom:4px}
-.result-max{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.1em;margin-bottom:1rem}
-.result-rating{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--parchment);letter-spacing:0.1em;margin-bottom:1.5rem}
+.result-body{padding:1rem 0}
+.new-pb-banner{background:linear-gradient(135deg,rgba(201,168,76,0.2),rgba(232,208,138,0.1));border:1px solid var(--gold);padding:10px 16px;text-align:center;margin-bottom:1rem;display:none;animation:pbPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both}
+.new-pb-banner.show{display:block}
+@keyframes pbPop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+.new-pb-banner-text{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gold);letter-spacing:0.1em}
+.new-pb-banner-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.08em}
 
-.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:1.5rem}
-.result-stat{background:var(--dark2);border:1px solid rgba(201,168,76,0.15);padding:12px 8px;text-align:center}
-.result-stat-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold)}
-.result-stat-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px}
+.result-score-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px;text-align:center}
+.result-score{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,18vw,7.5rem);color:var(--gold);line-height:0.9;text-align:center;text-shadow:0 0 40px rgba(201,168,76,0.3);margin-bottom:4px}
+.result-max{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-align:center;margin-bottom:6px}
+.result-rating{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--parchment);letter-spacing:0.08em;text-align:center;margin-bottom:1.25rem}
 
-.cta-arcade{border:1px solid rgba(201,168,76,0.2);padding:1rem;text-align:center;margin-bottom:1.25rem;background:rgba(201,168,76,0.03)}
-.cta-arcade p{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.08em;margin-bottom:6px}
-.cta-handle{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);letter-spacing:0.1em}
+/* SHARE CARD */
+.share-card{background:var(--dark2);border:1px solid rgba(201,168,76,0.2);padding:1rem;margin-bottom:1rem;position:relative;overflow:hidden}
+.share-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.share-card-title{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px}
+.share-card-content{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
+.sc-stat{text-align:center}
+.sc-num{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold)}
+.sc-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase}
+.share-card-handle{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:rgba(201,168,76,0.5);letter-spacing:0.1em;text-align:center}
+.copy-btn{width:100%;padding:8px;background:transparent;border:1px solid rgba(201,168,76,0.25);font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);cursor:pointer;letter-spacing:0.08em;transition:all 0.15s;margin-top:8px}
+.copy-btn:hover{background:rgba(201,168,76,0.1)}
 
-.replay-btn{width:100%;padding:15px;background:transparent;border:2px solid var(--gold);color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;cursor:pointer;transition:all 0.15s;margin-bottom:8px}
+/* ACHIEVEMENTS */
+.achievements{margin-bottom:1rem}
+.ach-title{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px}
+.ach-row{display:flex;flex-wrap:wrap;gap:5px}
+.ach-badge{font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border:1px solid rgba(201,168,76,0.25);color:var(--gold);background:rgba(201,168,76,0.06);letter-spacing:0.04em;animation:badgePop 0.4s cubic-bezier(0.34,1.56,0.64,1) both}
+@keyframes badgePop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:1rem}
+.result-stat{background:var(--dark2);border:1px solid rgba(201,168,76,0.12);padding:10px 6px;text-align:center}
+.result-stat-num{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold)}
+.result-stat-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-top:1px}
+
+.cta-arcade{border:1px solid rgba(201,168,76,0.15);padding:0.75rem;text-align:center;margin-bottom:1rem;background:rgba(201,168,76,0.03)}
+.cta-arcade p{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.06em;margin-bottom:4px}
+.cta-handle{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gold);letter-spacing:0.1em}
+
+.replay-btn{width:100%;padding:14px;background:transparent;border:2px solid var(--gold);color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.15em;cursor:pointer;transition:all 0.15s;margin-bottom:6px}
 .replay-btn:hover{background:var(--gold);color:var(--dark)}
-.games-row{display:flex;gap:6px}
-.game-link{flex:1;display:block;text-decoration:none;background:var(--dark2);border:1px solid rgba(201,168,76,0.12);padding:10px 6px;text-align:center;transition:all 0.15s}
+.games-row{display:flex;gap:5px}
+.game-link{flex:1;display:block;text-decoration:none;background:var(--dark2);border:1px solid rgba(201,168,76,0.1);padding:8px 4px;text-align:center;transition:all 0.12s}
 .game-link:hover{border-color:rgba(201,168,76,0.3)}
-.game-link-icon{font-size:16px;display:block;margin-bottom:3px}
-.game-link-text{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.06em}
+.game-link-icon{font-size:14px;display:block;margin-bottom:2px}
+.game-link-text{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:0.04em}
 
-.footer{text-align:center;padding:2rem 0;font-family:'DM Mono',monospace;font-size:10px;color:rgba(122,109,88,0.3);letter-spacing:0.1em}
-
-@keyframes slideIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
-.opt{animation:slideIn 0.25s ease both}
-.opt:nth-child(1){animation-delay:0s}
-.opt:nth-child(2){animation-delay:0.04s}
-.opt:nth-child(3){animation-delay:0.08s}
-.opt:nth-child(4){animation-delay:0.12s}
+.footer{text-align:center;padding:1.5rem 0 2rem;font-family:'DM Mono',monospace;font-size:9px;color:rgba(122,109,88,0.25);letter-spacing:0.1em}
 </style>
 </head>
 <body>
+
 <div class="arcade-header">
   <div class="arcade-brand">BiblicalLivesSeries</div>
   <div class="arcade-title">Bible Trivia <span>Blitz</span></div>
@@ -149,68 +197,128 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:3px;background
 
 <div class="page">
 
+<!-- INTRO -->
 <div class="screen active" id="s-intro">
   <div class="intro-body">
+    <div class="pb-badge">
+      <span class="pb-label">🏆 PERSONAL BEST</span>
+      <span class="pb-val" id="pb-display">000</span>
+    </div>
+
+    <div class="cat-label-row">
+      <span class="cat-label">Category filter</span>
+      <button class="cat-all-btn" onclick="toggleAllCats()">ALL / NONE</button>
+    </div>
+    <div class="cat-chips" id="cat-chips"></div>
+    <br/>
+
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;margin-bottom:6px;text-transform:uppercase">Difficulty</div>
+    <div class="difficulty-row">
+      <button class="diff-btn" data-time="15" onclick="setDiff(this)">EASY<span class="diff-label">15 SEC</span></button>
+      <button class="diff-btn active" data-time="10" onclick="setDiff(this)">NORMAL<span class="diff-label">10 SEC</span></button>
+      <button class="diff-btn" data-time="6" onclick="setDiff(this)">HARD<span class="diff-label">6 SEC</span></button>
+    </div>
+
     <div class="stat-row">
       <div class="stat-box"><div class="stat-box-num">10</div><div class="stat-box-label">Questions</div></div>
-      <div class="stat-box"><div class="stat-box-num">10</div><div class="stat-box-label">Seconds</div></div>
-      <div class="stat-box"><div class="stat-box-num">3×</div><div class="stat-box-label">Streak</div></div>
-      <div class="stat-box"><div class="stat-box-num">150</div><div class="stat-box-label">Max pts</div></div>
+      <div class="stat-box"><div class="stat-box-num" id="time-display">10</div><div class="stat-box-label">Seconds</div></div>
+      <div class="stat-box"><div class="stat-box-num">2</div><div class="stat-box-label">Lifelines</div></div>
+      <div class="stat-box"><div class="stat-box-num">∞</div><div class="stat-box-label">Combos</div></div>
     </div>
-    <div class="cat-grid">
-      <span class="cat-tag">PEOPLE</span><span class="cat-tag">PLACES</span><span class="cat-tag">NUMBERS</span>
-      <span class="cat-tag">EVENTS</span><span class="cat-tag">MIRACLES</span><span class="cat-tag">QUOTES</span><span class="cat-tag">BOOKS</span>
-    </div>
+
     <button class="start-btn" onclick="startGame()">⚡ START THE BLITZ</button>
+    <div class="lifeline-info">💡 50/50 removes two wrong answers &nbsp;·&nbsp; ⏱ +5 SEC adds time</div>
   </div>
 </div>
 
+<!-- GAME -->
 <div class="screen" id="s-game">
-  <div class="game-body">
-    <div class="score-bar">
-      <div><div class="score-lbl">Score</div><div class="score-val" id="score-val">000</div></div>
-      <div class="timer-display">
-        <div class="timer-ring">
-          <svg class="timer-svg" width="100" height="100" viewBox="0 0 100 100">
-            <circle class="timer-track" cx="50" cy="50" r="45"/>
-            <circle class="timer-arc" id="timer-arc" cx="50" cy="50" r="45"/>
-          </svg>
-          <div class="timer-num" id="timer-num">10</div>
-        </div>
-      </div>
-      <div style="text-align:right"><div class="score-lbl">Streak</div><div class="score-val" id="streak-val" style="color:var(--text)">0</div></div>
+  <div class="score-bar">
+    <div class="score-group">
+      <div class="score-lbl">Score</div>
+      <div class="score-val" id="score-val">000</div>
+      <div class="pb-indicator" id="pb-ind">★ NEW PB!</div>
     </div>
-
-    <div class="q-counter" id="q-counter">QUESTION 01 / 10</div>
-    <div class="streak-pills" id="streak-pills"></div>
-    <div class="q-cat-badge" id="q-cat">PEOPLE</div>
-    <div class="q-text" id="q-text"></div>
-    <div class="feedback-line" id="feedback"></div>
-    <div class="opts" id="opts"></div>
+    <div class="score-group">
+      <div class="timer-display">
+        <svg class="timer-ring timer-svg" viewBox="0 0 80 80">
+          <circle class="timer-track" cx="40" cy="40" r="35"/>
+          <circle class="timer-arc" id="timer-arc" cx="40" cy="40" r="35"/>
+        </svg>
+        <div class="timer-num" id="timer-num">10</div>
+      </div>
+    </div>
+    <div class="score-group">
+      <div class="score-lbl">Combo</div>
+      <div class="combo-val" id="combo-val">x1</div>
+    </div>
   </div>
+
+  <div class="lifelines-row">
+    <button class="lifeline-btn" id="ll-5050" onclick="use5050()">💡 50/50</button>
+    <button class="lifeline-btn" id="ll-time" onclick="useExtraTime()">⏱ +5 SEC</button>
+  </div>
+
+  <div class="streak-bar" id="streak-bar"></div>
+  <div class="encourage" id="encourage"></div>
+
+  <div class="q-meta-row">
+    <span class="q-counter" id="q-counter">01 / 10</span>
+    <span class="q-cat-badge" id="q-cat">PEOPLE</span>
+  </div>
+  <div class="q-text" id="q-text"></div>
+  <div class="fact-banner" id="fact-banner"></div>
+  <div class="feedback-line" id="feedback"></div>
+  <div class="opts" id="opts"></div>
 </div>
 
+<!-- RESULT -->
 <div class="screen" id="s-result">
   <div class="result-body">
+    <div class="new-pb-banner" id="new-pb-banner">
+      <div class="new-pb-banner-text">🏆 NEW PERSONAL BEST!</div>
+      <div class="new-pb-banner-sub" id="new-pb-sub"></div>
+    </div>
+
     <div class="result-score-label">FINAL SCORE</div>
     <div class="result-score" id="r-score">000</div>
-    <div class="result-max">/ 150 POSSIBLE POINTS</div>
+    <div class="result-max">/ 200 POSSIBLE POINTS</div>
     <div class="result-rating" id="r-rating"></div>
+
+    <div class="achievements" id="achievements-wrap">
+      <div class="ach-title">🎖 Achievements unlocked</div>
+      <div class="ach-row" id="ach-row"></div>
+    </div>
+
+    <div class="share-card">
+      <div class="share-card-title">📸 Screenshot & share your result</div>
+      <div class="share-card-content">
+        <div class="sc-stat"><div class="sc-num" id="sc-score">0</div><div class="sc-label">Points</div></div>
+        <div class="sc-stat"><div class="sc-num" id="sc-correct">0</div><div class="sc-label">Correct</div></div>
+        <div class="sc-stat"><div class="sc-num" id="sc-streak">0</div><div class="sc-label">Streak</div></div>
+      </div>
+      <div class="share-card-handle">@BiblicalLivesSeries</div>
+      <button class="copy-btn" onclick="copyResult()">📋 COPY RESULT TO SHARE</button>
+    </div>
+
     <div class="result-grid">
       <div class="result-stat"><div class="result-stat-num" id="r-correct">0</div><div class="result-stat-label">Correct</div></div>
       <div class="result-stat"><div class="result-stat-num" id="r-streak">0</div><div class="result-stat-label">Best streak</div></div>
       <div class="result-stat"><div class="result-stat-num" id="r-avg">0s</div><div class="result-stat-label">Avg speed</div></div>
     </div>
+
     <div class="cta-arcade">
       <p>WATCH THE ANIMATED SERIES ON TIKTOK</p>
       <div class="cta-handle">@BiblicalLivesSeries</div>
     </div>
-    <button class="replay-btn" onclick="startGame()">⚡ PLAY AGAIN</button>
+
+    <button class="replay-btn" onclick="goIntro()">⚡ PLAY AGAIN</button>
     <div class="games-row">
-      <a href="game.html" class="game-link"><span class="game-link-icon">🎯</span><div class="game-link-text">GUESS CHAR</div></a>
+      <a href="game.html" class="game-link"><span class="game-link-icon">🎯</span><div class="game-link-text">GUESS</div></a>
+      <a href="quiz.html" class="game-link"><span class="game-link-icon">📖</span><div class="game-link-text">QUIZ</div></a>
       <a href="scripture.html" class="game-link"><span class="game-link-icon">📜</span><div class="game-link-text">SCRIPTURE</div></a>
       <a href="timeline.html" class="game-link"><span class="game-link-icon">📅</span><div class="game-link-text">TIMELINE</div></a>
-      <a href="index.html" class="game-link"><span class="game-link-icon">🏠</span><div class="game-link-text">ALL GAMES</div></a>
+      <a href="index.html" class="game-link"><span class="game-link-icon">🏠</span><div class="game-link-text">HUB</div></a>
     </div>
   </div>
 </div>
@@ -219,326 +327,493 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:3px;background
 <div class="footer">© BIBLICALLIVESSERIES — ALL RIGHTS RESERVED</div>
 
 <script>
+/* ─── QUESTIONS ─────────────────────────────────────────── */
 const allQ=[
-  {q:"How many disciples did Jesus choose?",opts:["10","12","7","14"],a:1,cat:"PEOPLE"},
-  {q:"Who betrayed Jesus for 30 pieces of silver?",opts:["Peter","Thomas","Judas","Bartholomew"],a:2,cat:"PEOPLE"},
-  {q:"Who was the first king of Israel?",opts:["David","Solomon","Saul","Samuel"],a:2,cat:"PEOPLE"},
-  {q:"Which disciple denied Jesus three times?",opts:["John","James","Andrew","Peter"],a:3,cat:"PEOPLE"},
-  {q:"Who was Moses' brother?",opts:["Aaron","Joshua","Caleb","Miriam"],a:0,cat:"PEOPLE"},
-  {q:"Who was the mother of Jesus?",opts:["Martha","Elizabeth","Mary","Salome"],a:2,cat:"PEOPLE"},
-  {q:"Which king had 700 wives?",opts:["David","Saul","Solomon","Rehoboam"],a:2,cat:"PEOPLE"},
-  {q:"Who replaced Judas as an apostle?",opts:["Barnabas","Matthias","Stephen","Silas"],a:1,cat:"PEOPLE"},
-  {q:"Who was swallowed by a great fish?",opts:["Elijah","Jeremiah","Isaiah","Jonah"],a:3,cat:"PEOPLE"},
-  {q:"What was Paul's name before conversion?",opts:["Silas","Saul","Simon","Samuel"],a:1,cat:"PEOPLE"},
-  {q:"Who climbed a tree to see Jesus?",opts:["Matthew","Zacchaeus","Nicodemus","Bartimaeus"],a:1,cat:"PEOPLE"},
-  {q:"Who was the strongest man in the Bible?",opts:["Goliath","David","Samson","Gideon"],a:2,cat:"PEOPLE"},
-  {q:"Who built the ark?",opts:["Abraham","Moses","Noah","Jacob"],a:2,cat:"PEOPLE"},
-  {q:"Who was Ruth's mother-in-law?",opts:["Naomi","Miriam","Deborah","Hannah"],a:0,cat:"PEOPLE"},
-  {q:"Who was taken to heaven in a chariot of fire?",opts:["Elisha","Isaiah","Elijah","Jeremiah"],a:2,cat:"PEOPLE"},
-  {q:"How many days was Jonah inside the fish?",opts:["1","3","7","40"],a:1,cat:"NUMBERS"},
-  {q:"How many days did Jesus fast in the wilderness?",opts:["7","30","40","50"],a:2,cat:"NUMBERS"},
-  {q:"How many books in the New Testament?",opts:["22","27","30","39"],a:1,cat:"NUMBERS"},
-  {q:"How many plagues struck Egypt?",opts:["7","9","10","12"],a:2,cat:"NUMBERS"},
-  {q:"How many years in the wilderness?",opts:["20","30","40","50"],a:2,cat:"NUMBERS"},
-  {q:"How many stones did David pick up for Goliath?",opts:["1","3","5","7"],a:2,cat:"NUMBERS"},
-  {q:"How many books in the whole Bible?",opts:["56","60","66","72"],a:2,cat:"NUMBERS"},
-  {q:"How many times did Peter deny Jesus?",opts:["1","2","3","4"],a:2,cat:"NUMBERS"},
-  {q:"How many days was Lazarus in the tomb?",opts:["1","2","3","4"],a:3,cat:"NUMBERS"},
-  {q:"In which city was Jesus born?",opts:["Nazareth","Jerusalem","Bethlehem","Jericho"],a:2,cat:"PLACES"},
-  {q:"Where did Moses receive the Ten Commandments?",opts:["Mount Zion","Mount Sinai","Mount Carmel","Mount Hermon"],a:1,cat:"PLACES"},
-  {q:"In which garden did Jesus pray before arrest?",opts:["Eden","Gethsemane","Nazareth","Galilee"],a:1,cat:"PLACES"},
-  {q:"Where was Paul going when he encountered Jesus?",opts:["Jerusalem","Antioch","Damascus","Rome"],a:2,cat:"PLACES"},
-  {q:"On which sea did Jesus walk on water?",opts:["Dead Sea","Red Sea","Sea of Galilee","Mediterranean"],a:2,cat:"PLACES"},
-  {q:"In which river was Jesus baptized?",opts:["Nile","Euphrates","Jordan","Tigris"],a:2,cat:"PLACES"},
-  {q:"What was Jesus' first miracle?",opts:["Healing blind man","Raising Lazarus","Water into wine","Feeding 5000"],a:2,cat:"MIRACLES"},
-  {q:"How many people did Jesus feed with five loaves?",opts:["1,000","2,000","4,000","5,000"],a:3,cat:"MIRACLES"},
-  {q:"What did God give Israelites to eat in the wilderness?",opts:["Bread and fish","Manna and quail","Locusts and honey","Figs and dates"],a:1,cat:"MIRACLES"},
-  {q:"Which sea did Moses part?",opts:["Dead Sea","Sea of Galilee","Mediterranean","Red Sea"],a:3,cat:"MIRACLES"},
-  {q:"How did the Holy Spirit appear at Pentecost?",opts:["A dove","Wind and fire","A loud voice","Bright light"],a:1,cat:"EVENTS"},
-  {q:"What did the wise men follow to find Jesus?",opts:["An angel","A star","A dove","A cloud"],a:1,cat:"EVENTS"},
-  {q:"Complete: 'For God so loved the world that he gave his...'",opts:["Life","Kingdom","Only Son","Spirit"],a:2,cat:"QUOTES"},
-  {q:"'The Lord is my shepherd' is from which Psalm?",opts:["Psalm 1","Psalm 23","Psalm 100","Psalm 119"],a:1,cat:"QUOTES"},
-  {q:"'I am the way, the truth and the life' — who said this?",opts:["Paul","Peter","An angel","Jesus"],a:3,cat:"QUOTES"},
-  {q:"Which is the shortest book in the Bible?",opts:["Jude","2 John","3 John","Philemon"],a:2,cat:"BOOKS"},
-  {q:"Which book comes first in the New Testament?",opts:["Mark","John","Luke","Matthew"],a:3,cat:"BOOKS"},
-  {q:"Which book has the most chapters?",opts:["Genesis","Isaiah","Jeremiah","Psalms"],a:3,cat:"BOOKS"},
-  {q:"In which book is the burning bush?",opts:["Genesis","Leviticus","Exodus","Numbers"],a:2,cat:"BOOKS"},
-  {q:"Which book records the early church?",opts:["Romans","Acts","Hebrews","Revelation"],a:1,cat:"BOOKS"}
+  {q:"How many disciples did Jesus choose?",opts:["10","12","7","14"],a:1,cat:"PEOPLE",fact:"Jesus chose 12 disciples, one for each tribe of Israel."},
+  {q:"Who betrayed Jesus for 30 pieces of silver?",opts:["Peter","Thomas","Judas","Bartholomew"],a:2,cat:"PEOPLE",fact:"Judas later returned the money and the chief priests used it to buy a potter's field."},
+  {q:"Who was the first king of Israel?",opts:["David","Solomon","Saul","Samuel"],a:2,cat:"PEOPLE",fact:"Saul was anointed by Samuel but later rejected by God for disobedience."},
+  {q:"Which disciple denied Jesus three times?",opts:["John","James","Andrew","Peter"],a:3,cat:"PEOPLE",fact:"Peter wept bitterly after hearing the rooster crow — exactly as Jesus predicted."},
+  {q:"Who was Moses' brother?",opts:["Aaron","Joshua","Caleb","Miriam"],a:0,cat:"PEOPLE",fact:"Aaron was Moses' spokesperson because Moses said he was slow of speech."},
+  {q:"Which king had 700 wives?",opts:["David","Saul","Solomon","Rehoboam"],a:2,cat:"PEOPLE",fact:"Solomon also had 300 concubines. His foreign wives turned his heart to other gods."},
+  {q:"Who replaced Judas as an apostle?",opts:["Barnabas","Matthias","Stephen","Silas"],a:1,cat:"PEOPLE",fact:"Matthias was chosen by casting lots — the last time lots are used in the New Testament."},
+  {q:"Who was swallowed by a great fish?",opts:["Elijah","Jeremiah","Isaiah","Jonah"],a:3,cat:"PEOPLE",fact:"Jesus said Jonah's 3 days in the fish was a sign of his own death and resurrection."},
+  {q:"What was Paul's name before conversion?",opts:["Silas","Saul","Simon","Samuel"],a:1,cat:"PEOPLE",fact:"Saul means 'asked for' in Hebrew. Paul is the Greek form used in Gentile contexts."},
+  {q:"Who climbed a tree to see Jesus?",opts:["Matthew","Zacchaeus","Nicodemus","Bartimaeus"],a:1,cat:"PEOPLE",fact:"Zacchaeus was a chief tax collector who gave half his possessions to the poor after meeting Jesus."},
+  {q:"Who built the ark?",opts:["Abraham","Moses","Noah","Jacob"],a:2,cat:"PEOPLE",fact:"Noah's ark was about 300 cubits long — roughly the size of a modern cargo ship."},
+  {q:"Who was Ruth's mother-in-law?",opts:["Naomi","Miriam","Deborah","Hannah"],a:0,cat:"PEOPLE",fact:"Naomi told Ruth to call her Mara, meaning bitter, after losing her husband and sons."},
+  {q:"Which prophet was taken to heaven in a chariot of fire?",opts:["Elisha","Isaiah","Elijah","Jeremiah"],a:2,cat:"PEOPLE",fact:"Elijah is one of only two people in Scripture who never died — the other being Enoch."},
+  {q:"Who was the first Christian martyr?",opts:["James","Paul","Peter","Stephen"],a:3,cat:"PEOPLE",fact:"Stephen saw Jesus standing at the right hand of God as he was being stoned."},
+  {q:"Who was the mother of Jesus?",opts:["Martha","Elizabeth","Mary","Salome"],a:2,cat:"PEOPLE",fact:"Mary is mentioned more times in the Quran than in the entire New Testament."},
+  {q:"How many days was Jonah inside the fish?",opts:["1","3","7","40"],a:1,cat:"NUMBERS",fact:"Three days in the fish foreshadowed Jesus being in the tomb for three days."},
+  {q:"How many days did Jesus fast in the wilderness?",opts:["7","30","40","50"],a:2,cat:"NUMBERS",fact:"Jesus fasted 40 days mirroring Israel's 40 years wandering in the wilderness."},
+  {q:"How many books are in the New Testament?",opts:["22","27","30","39"],a:1,cat:"NUMBERS",fact:"The 27 books of the New Testament were written by about 9 different authors."},
+  {q:"How many plagues struck Egypt?",opts:["7","9","10","12"],a:2,cat:"NUMBERS",fact:"The 10 plagues each targeted a specific Egyptian god, proving their powerlessness."},
+  {q:"How many years did the Israelites wander in the wilderness?",opts:["20","30","40","50"],a:2,cat:"NUMBERS",fact:"40 years — one year for each of the 40 days the spies explored Canaan in unbelief."},
+  {q:"How many stones did David pick up for Goliath?",opts:["1","3","5","7"],a:2,cat:"NUMBERS",fact:"David picked 5 stones — some say the other 4 were for Goliath's 4 brothers."},
+  {q:"How many books in the whole Bible?",opts:["56","60","66","72"],a:2,cat:"NUMBERS",fact:"66 books — 39 in the Old Testament and 27 in the New Testament."},
+  {q:"How many times did Peter deny Jesus?",opts:["1","2","3","4"],a:2,cat:"NUMBERS",fact:"Jesus predicted Peter's three denials at the Last Supper, which Peter flatly refused to believe."},
+  {q:"How many days was Lazarus in the tomb?",opts:["1","2","3","4"],a:3,cat:"NUMBERS",fact:"By four days, Jewish tradition held the soul had fully departed — making the miracle undeniable."},
+  {q:"How many wise men visited baby Jesus?",opts:["2","3","The Bible doesn't say","12"],a:2,cat:"NUMBERS",fact:"The Bible mentions 3 gifts but never specifies how many wise men brought them."},
+  {q:"In which city was Jesus born?",opts:["Nazareth","Jerusalem","Bethlehem","Jericho"],a:2,cat:"PLACES",fact:"Bethlehem means 'house of bread' in Hebrew — fitting for the Bread of Life."},
+  {q:"Where did Moses receive the Ten Commandments?",opts:["Mount Zion","Mount Sinai","Mount Carmel","Mount Hermon"],a:1,cat:"PLACES",fact:"Moses went up Mount Sinai twice — the first tablets were broken when he saw the golden calf."},
+  {q:"In which garden did Jesus pray before his arrest?",opts:["Eden","Gethsemane","Nazareth","Galilee"],a:1,cat:"PLACES",fact:"Gethsemane means 'oil press' — where Jesus was crushed under the weight of what lay ahead."},
+  {q:"Where was Paul going when he encountered Jesus?",opts:["Jerusalem","Antioch","Damascus","Rome"],a:2,cat:"PLACES",fact:"Paul was going to Damascus to arrest Christians when Jesus appeared to him in a blinding light."},
+  {q:"On which sea did Jesus walk on water?",opts:["Dead Sea","Red Sea","Sea of Galilee","Mediterranean"],a:2,cat:"PLACES",fact:"The Sea of Galilee is actually a freshwater lake about 21km long and 13km wide."},
+  {q:"In which river was Jesus baptized?",opts:["Nile","Euphrates","Jordan","Tigris"],a:2,cat:"PLACES",fact:"The Jordan River flows from the Sea of Galilee down to the Dead Sea — about 251km."},
+  {q:"Where did Noah's ark come to rest?",opts:["Mount Sinai","Mount Ararat","Mount Hermon","Mount Zion"],a:1,cat:"PLACES",fact:"Mount Ararat is in modern-day Turkey. Expeditions have searched for the ark there for centuries."},
+  {q:"What city's walls fell after marching around them?",opts:["Babylon","Jerusalem","Jericho","Samaria"],a:2,cat:"PLACES",fact:"Jericho is one of the oldest continuously inhabited cities in the world — over 10,000 years old."},
+  {q:"Where did Elijah challenge the prophets of Baal?",opts:["Mount Sinai","Mount Zion","Mount Carmel","Mount Hermon"],a:2,cat:"PLACES",fact:"Mount Carmel overlooks the Jezreel Valley — Elijah called down fire before 450 prophets of Baal."},
+  {q:"What was Jesus' first miracle?",opts:["Healing a blind man","Raising Lazarus","Water into wine","Feeding 5000"],a:2,cat:"MIRACLES",fact:"Jesus turned water into wine at Cana. His mother Mary prompted him even though his 'hour had not yet come.'"},
+  {q:"How many did Jesus feed with five loaves and two fish?",opts:["1,000","2,000","4,000","5,000"],a:3,cat:"MIRACLES",fact:"5,000 was just the men — adding women and children it may have been 15,000–20,000 people."},
+  {q:"What did God provide for Israelites to eat in the wilderness?",opts:["Bread and fish","Manna and quail","Locusts and honey","Figs and dates"],a:1,cat:"MIRACLES",fact:"Manna means 'what is it?' in Hebrew. The Israelites had never seen anything like it."},
+  {q:"Which sea did Moses part?",opts:["Dead Sea","Sea of Galilee","Mediterranean","Red Sea"],a:3,cat:"MIRACLES",fact:"The Hebrew text says 'Yam Suph' which some scholars translate as Sea of Reeds, not Red Sea."},
+  {q:"What happened when Jesus was baptized?",opts:["An earthquake","The sky darkened","The Spirit descended like a dove","Angels appeared"],a:2,cat:"MIRACLES",fact:"All three members of the Trinity were present: Father (voice), Son (Jesus), Spirit (dove)."},
+  {q:"How did the Holy Spirit appear at Pentecost?",opts:["A dove","Wind and fire","A loud voice","Bright light"],a:1,cat:"EVENTS",fact:"The sound of wind was so dramatic that a crowd gathered from across Jerusalem to investigate."},
+  {q:"What did the wise men follow to find Jesus?",opts:["An angel","A star","A dove","A cloud"],a:1,cat:"EVENTS",fact:"The wise men arrived in Jerusalem and asked Herod where the king was — alarming the whole city."},
+  {q:"What happened to the sky when Jesus died?",opts:["It turned red","Stars appeared","Darkness covered the land","It shone brighter"],a:2,cat:"EVENTS",fact:"The darkness lasted three hours — from noon to 3pm. The temple curtain also tore in two."},
+  {q:"Complete: 'For God so loved the world that he gave his...'",opts:["Life","Kingdom","Only Son","Spirit"],a:2,cat:"QUOTES",fact:"John 3:16 is the most quoted verse in the Bible and appears on signs at sporting events worldwide."},
+  {q:"'The Lord is my shepherd' is from which Psalm?",opts:["Psalm 1","Psalm 23","Psalm 100","Psalm 119"],a:1,cat:"QUOTES",fact:"Psalm 23 was written by David — the former shepherd who knew firsthand how a good shepherd cares."},
+  {q:"Who said 'Here I am, send me'?",opts:["Moses","Jeremiah","Isaiah","Ezekiel"],a:2,cat:"QUOTES",fact:"Isaiah said this after seeing a vision of God's throne and having his lips touched with a burning coal."},
+  {q:"'I am the way, the truth and the life' — who said this?",opts:["Paul","Peter","An angel","Jesus"],a:3,cat:"QUOTES",fact:"Jesus said this to Thomas who asked 'how can we know the way?' It is one of the 7 I AM statements in John."},
+  {q:"Who said 'My Lord and my God' upon seeing the risen Jesus?",opts:["Peter","John","Thomas","Mary"],a:2,cat:"QUOTES",fact:"Thomas's declaration is the clearest direct statement of Jesus's divinity in all four Gospels."},
+  {q:"Which is the shortest book in the Bible?",opts:["Jude","2 John","3 John","Philemon"],a:2,cat:"BOOKS",fact:"3 John has only 219 words in Greek — shorter than many modern text messages."},
+  {q:"Which book comes first in the New Testament?",opts:["Mark","John","Luke","Matthew"],a:3,cat:"BOOKS",fact:"Matthew was placed first because it directly connects to the Old Testament prophecies about the Messiah."},
+  {q:"Which book of the Bible has the most chapters?",opts:["Genesis","Isaiah","Jeremiah","Psalms"],a:3,cat:"BOOKS",fact:"Psalms has 150 chapters. Psalm 119 is the longest chapter in the Bible with 176 verses."},
+  {q:"In which book is the story of the burning bush?",opts:["Genesis","Leviticus","Exodus","Numbers"],a:2,cat:"BOOKS",fact:"Exodus chapter 3 records Moses at the burning bush. The word 'Exodus' means departure or going out."},
+  {q:"Which book records the early church?",opts:["Romans","Acts","Hebrews","Revelation"],a:1,cat:"BOOKS",fact:"Acts was written by Luke and is a sequel to his Gospel. It covers about 30 years of church history."},
+  {q:"Which book contains the Sermon on the Mount?",opts:["Mark","Luke","John","Matthew"],a:3,cat:"BOOKS",fact:"Matthew chapters 5–7 contain the Sermon on the Mount — Jesus's most extensive recorded teaching."}
 ];
 
-const TOTAL=10,TIME=10;
-let questions=[],current=0,score=0,correct=0,streak=0,bestStreak=0,timerInterval=null,timeLeft=TIME,answered=false,totalTime=0,answeredCount=0;
+const CATS = ['PEOPLE','NUMBERS','PLACES','MIRACLES','EVENTS','QUOTES','BOOKS'];
+const ENCOURAGE = [
+  "Paul survived shipwrecks, you can survive this 💪",
+  "Even Jonah got a second chance 🐋",
+  "David took down Goliath with 5 stones — you got this 🪨",
+  "Esther walked in uninvited and won 👑",
+  "Gideon started with 32,000 and won with 300 🪔",
+  "Moses parted seas — you can answer this ✋",
+  "Ruth left everything and still won 🌾",
+  "Thomas doubted and still declared 'My Lord and my God' 🔎",
+  "Keep going — the best is yet to come 🔥",
+  "Elijah called fire from heaven — stay focused ⚡"
+];
 
+const TOTAL = 10;
+let TIME_PER_Q = 10;
+let questions=[], current=0, score=0, correct=0;
+let streak=0, bestStreak=0, timerInterval=null;
+let timeLeft=TIME_PER_Q, answered=false;
+let totalTime=0, answeredCount=0;
+let comboMultiplier=1, comboCount=0;
+let ll5050Used=false, llTimeUsed=false;
+let selectedCats=new Set(CATS);
+let personalBest=parseInt(localStorage.getItem('btb_pb')||'0');
+let encourageIdx=0;
+
+/* ─── SETUP ─────────────────────────────────────────────── */
+function init(){
+  document.getElementById('pb-display').textContent=pad(personalBest);
+  const chips=document.getElementById('cat-chips');
+  chips.innerHTML=CATS.map(c=>`<div class="cat-chip on" data-cat="${c}" onclick="toggleCat(this)">${c}</div>`).join('');
+}
+
+function toggleCat(el){
+  const c=el.dataset.cat;
+  if(selectedCats.has(c)){if(selectedCats.size>1){selectedCats.delete(c);el.classList.remove('on');}}
+  else{selectedCats.add(c);el.classList.add('on');}
+}
+
+function toggleAllCats(){
+  if(selectedCats.size===CATS.length){
+    selectedCats.clear();selectedCats.add(CATS[0]);
+    document.querySelectorAll('.cat-chip').forEach((el,i)=>{el.classList.toggle('on',i===0);});
+  } else {
+    CATS.forEach(c=>selectedCats.add(c));
+    document.querySelectorAll('.cat-chip').forEach(el=>el.classList.add('on'));
+  }
+}
+
+function setDiff(el){
+  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  TIME_PER_Q=parseInt(el.dataset.time);
+  document.getElementById('time-display').textContent=TIME_PER_Q;
+}
+
+function pad(n){return String(n).padStart(3,'0')}
 function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));setTimeout(()=>document.getElementById(id).classList.add('active'),30)}
-function pad(n){return String(n).padStart(3,'0')}
 
+/* ─── GAME FLOW ─────────────────────────────────────────── */
 function startGame(){
-  // Unlock audio context on first user interaction (required by iOS)
-  try { getCtx().resume(); } catch(e) {}
-  questions=shuffle(allQ).slice(0,TOTAL);
-  current=0;score=0;correct=0;streak=0;bestStreak=0;totalTime=0;answeredCount=0;
+  try{getCtx().resume();}catch(e){}
+  const pool=allQ.filter(q=>selectedCats.has(q.cat));
+  if(pool.length<TOTAL){questions=shuffle([...pool,...shuffle(allQ)]).slice(0,TOTAL);}
+  else{questions=shuffle(pool).slice(0,TOTAL);}
+  current=0;score=0;correct=0;streak=0;bestStreak=0;
+  totalTime=0;answeredCount=0;comboMultiplier=1;comboCount=0;
+  ll5050Used=false;llTimeUsed=false;encourageIdx=0;
   soundGameStart();
-  show('s-game');setTimeout(loadQ,800);
+  show('s-game');setTimeout(loadQ,900);
+}
+
+function goIntro(){
+  document.getElementById('pb-display').textContent=pad(personalBest);
+  show('s-intro');
 }
 
 function loadQ(){
   if(timerInterval)clearInterval(timerInterval);
-  answered=false;timeLeft=TIME;
+  answered=false;timeLeft=TIME_PER_Q;
   const q=questions[current];
-  document.getElementById('q-counter').textContent=`QUESTION ${String(current+1).padStart(2,'0')} / ${String(TOTAL).padStart(2,'0')}`;
+
+  document.getElementById('q-counter').textContent=`${String(current+1).padStart(2,'0')} / ${String(TOTAL).padStart(2,'0')}`;
   document.getElementById('q-cat').textContent=q.cat;
   document.getElementById('q-text').textContent=q.q;
   document.getElementById('score-val').textContent=pad(score);
-  document.getElementById('streak-val').textContent=streak+(streak>=3?'🔥':'');
+  document.getElementById('combo-val').textContent=`x${comboMultiplier}`;
   document.getElementById('feedback').className='feedback-line';
   document.getElementById('feedback').textContent='';
+  document.getElementById('fact-banner').className='fact-banner';
+  document.getElementById('fact-banner').textContent='';
+  document.getElementById('pb-ind').className='pb-indicator'+(score>personalBest?' show':'');
 
-  const pills=document.getElementById('streak-pills');
-  pills.innerHTML='';
+  // Lifeline buttons
+  document.getElementById('ll-5050').className='lifeline-btn'+(ll5050Used?' used':'');
+  document.getElementById('ll-5050').disabled=ll5050Used;
+  document.getElementById('ll-time').className='lifeline-btn'+(llTimeUsed?' used':'');
+  document.getElementById('ll-time').disabled=llTimeUsed;
+
+  // Streak pills
+  const bar=document.getElementById('streak-bar');
+  bar.innerHTML='';
   for(let i=0;i<TOTAL;i++){
     const p=document.createElement('div');
-    p.className='streak-pill'+(i<current?(questions[i]._ok?' hit':' miss'):'');
-    pills.appendChild(p);
+    p.className='s-pill'+(i<current?(questions[i]._ok?' hit':' miss'):'');
+    bar.appendChild(p);
   }
 
+  // Encouraging message every 3 questions
+  const enc=document.getElementById('encourage');
+  if(current>0&&current%3===0){
+    enc.textContent=ENCOURAGE[encourageIdx%ENCOURAGE.length];
+    enc.style.opacity='1';
+    encourageIdx++;
+    setTimeout(()=>{enc.style.opacity='0';},2500);
+  } else { enc.textContent=''; }
+
+  // Options
   const indices=shuffle([0,1,2,3]);
-  document.getElementById('opts').innerHTML=indices.map(idx=>`<button class="opt" data-idx="${idx}" onclick="pick(this,${idx})">${q.opts[idx]}</button>`).join('');
+  document.getElementById('opts').innerHTML=indices.map(idx=>
+    `<button class="opt" data-idx="${idx}" onclick="pick(this,${idx})">${q.opts[idx]}</button>`
+  ).join('');
+
   updateTimer();
-  timerInterval=setInterval(()=>{timeLeft-=0.1;if(timeLeft<=0){timeLeft=0;timeout()}updateTimer();},100);
+  timerInterval=setInterval(()=>{
+    timeLeft-=0.1;
+    if(timeLeft<=0){timeLeft=0;timeout();}
+    updateTimer();
+  },100);
 }
 
 function updateTimer(){
-  const pct=timeLeft/TIME;
-  const offset=283*(1-pct);
+  const pct=timeLeft/TIME_PER_Q;
+  const circumference=220;
+  const offset=circumference*(1-pct);
   const arc=document.getElementById('timer-arc');
   const num=document.getElementById('timer-num');
   arc.style.strokeDashoffset=offset;
   num.textContent=Math.ceil(timeLeft);
-  const d=timeLeft<=3;
-  arc.className='timer-arc'+(d?' danger':'');
-  num.className='timer-num'+(d?' danger':'');
-  // Start ticking in last 3 seconds
-  if(d && !tickInterval) startTicking();
-  if(!d) stopTicking();
+  const danger=timeLeft<=3;
+  const warning=timeLeft<=5&&timeLeft>3;
+  arc.className='timer-arc'+(danger?' danger':warning?' warning':'');
+  num.className='timer-num'+(danger?' danger':warning?' warning':'');
+  if(danger&&!tickInterval)startTicking();
+  if(!danger)stopTicking();
 }
 
 function pick(el,idx){
   if(answered)return;answered=true;clearInterval(timerInterval);stopTicking();
-  const q=questions[current];const used=TIME-timeLeft;totalTime+=used;answeredCount++;
+  const q=questions[current];
+  const used=TIME_PER_Q-timeLeft;totalTime+=used;answeredCount++;
   const ok=idx===q.a;q._ok=ok;
-  document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;const i=parseInt(b.dataset.idx);if(i===q.a)b.className='opt reveal';});
+
+  document.querySelectorAll('.opt').forEach(b=>{
+    b.disabled=true;
+    if(parseInt(b.dataset.idx)===q.a)b.className='opt reveal';
+  });
+
+  // Show fact
+  const fb2=document.getElementById('fact-banner');
+  fb2.textContent='📖 '+q.fact;
+  fb2.className='fact-banner show';
+
   if(ok){
-    const pts=10+Math.round((timeLeft/TIME)*5);score+=pts;correct++;streak++;if(streak>bestStreak)bestStreak=streak;
+    const speedBonus=Math.round((timeLeft/TIME_PER_Q)*5);
+    const base=10+speedBonus;
+    const pts=Math.round(base*comboMultiplier);
+    score+=pts;correct++;streak++;comboCount++;
+    if(streak>bestStreak)bestStreak=streak;
     el.className='opt correct';
-    if(streak>0&&streak%3===0){score+=5;soundStreak();fb('streak',`🔥 ${streak} STREAK +${pts+5} PTS`)}
-    else{soundCorrect();fb('correct',`✓ CORRECT +${pts} PTS`)}
+
+    // Update combo
+    if(comboCount>=3){
+      comboMultiplier=Math.min(3,1+Math.floor(comboCount/3)*0.5);
+      document.getElementById('combo-val').textContent=`x${comboMultiplier}`;
+    }
+
+    // Combo flash
+    if(streak>0&&streak%3===0){
+      score+=5;
+      soundStreak();
+      showComboFlash(`🔥 ${streak}x COMBO!`);
+      fb('streak',`🔥 ${streak} STREAK! +${pts+5} PTS (x${comboMultiplier})`);
+    } else {
+      soundCorrect();
+      fb('correct',`✓ CORRECT +${pts} PTS ${comboMultiplier>1?'(x'+comboMultiplier+')':''}`);
+    }
+
+    // PB indicator
+    if(score>personalBest){
+      document.getElementById('pb-ind').className='pb-indicator show';
+    }
   } else {
-    streak=0;el.className='opt wrong';soundWrong();fb('wrong',`✗ ANSWER: ${q.opts[q.a]}`)
+    streak=0;comboMultiplier=1;comboCount=0;
+    el.className='opt wrong';
+    document.getElementById('combo-val').textContent='x1';
+    soundWrong();
+    fb('wrong',`✗ ANSWER: ${q.opts[q.a]}`);
   }
+
+  animateScore();
   document.getElementById('score-val').textContent=pad(score);
-  document.getElementById('streak-val').textContent=streak+(streak>=3?'🔥':'');
-  setTimeout(()=>next(),1300);
+  setTimeout(()=>next(),1800);
 }
 
 function timeout(){
   if(answered)return;answered=true;clearInterval(timerInterval);stopTicking();
-  const q=questions[current];q._ok=false;streak=0;
-  document.getElementById('streak-val').textContent='0';
-  document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(parseInt(b.dataset.idx)===q.a)b.className='opt reveal';});
+  const q=questions[current];q._ok=false;streak=0;comboMultiplier=1;comboCount=0;
+  document.getElementById('combo-val').textContent='x1';
+  document.querySelectorAll('.opt').forEach(b=>{
+    b.disabled=true;
+    if(parseInt(b.dataset.idx)===q.a)b.className='opt reveal';
+  });
+  const fb2=document.getElementById('fact-banner');
+  fb2.textContent='📖 '+q.fact;
+  fb2.className='fact-banner show';
   soundTimeout();
-  fb('timeout',`TIME UP — ANSWER: ${q.opts[q.a]}`);
-  setTimeout(()=>next(),1300);
+  fb('timeout',`⏱ TIME UP — ${q.opts[q.a]}`);
+  setTimeout(()=>next(),1800);
 }
 
 function next(){current++;if(current>=TOTAL)result();else{show('s-game');setTimeout(loadQ,80);}}
-
 function fb(type,msg){const f=document.getElementById('feedback');f.className=`feedback-line show ${type}`;f.textContent=msg}
 
+function animateScore(){
+  const el=document.getElementById('score-val');
+  el.classList.add('bump');
+  setTimeout(()=>el.classList.remove('bump'),200);
+}
+
+function showComboFlash(msg){
+  const existing=document.querySelector('.combo-flash');
+  if(existing)existing.remove();
+  const div=document.createElement('div');
+  div.className='combo-flash';
+  div.textContent=msg;
+  document.body.appendChild(div);
+  setTimeout(()=>div.remove(),900);
+}
+
+/* ─── LIFELINES ─────────────────────────────────────────── */
+function use5050(){
+  if(ll5050Used||answered)return;
+  ll5050Used=true;
+  document.getElementById('ll-5050').classList.add('used');
+  document.getElementById('ll-5050').disabled=true;
+  const q=questions[current];
+  let removed=0;
+  document.querySelectorAll('.opt').forEach(btn=>{
+    if(parseInt(btn.dataset.idx)!==q.a&&removed<2){
+      btn.classList.add('hidden-50');
+      removed++;
+    }
+  });
+  soundLifeline();
+}
+
+function useExtraTime(){
+  if(llTimeUsed||answered)return;
+  llTimeUsed=true;
+  document.getElementById('ll-time').classList.add('used');
+  document.getElementById('ll-time').disabled=true;
+  timeLeft=Math.min(timeLeft+5,TIME_PER_Q);
+  soundLifeline();
+}
+
+/* ─── RESULT ────────────────────────────────────────────── */
 function result(){
-  const pct=Math.round((score/150)*100);
+  const isNewPB=score>personalBest;
+  if(isNewPB){
+    localStorage.setItem('btb_pb',score);
+    personalBest=score;
+    const banner=document.getElementById('new-pb-banner');
+    banner.classList.add('show');
+    document.getElementById('new-pb-sub').textContent=`${pad(score)} POINTS — PREVIOUS BEST: ${pad(parseInt(localStorage.getItem('btb_pb_prev')||'0'))}`;
+    soundNewPB();
+  } else {
+    localStorage.setItem('btb_pb_prev',personalBest);
+    soundGameOver();
+  }
+  localStorage.setItem('btb_pb',Math.max(score,personalBest));
+
+  const pct=Math.round((score/200)*100);
   let rating;
-  if(pct>=90)rating='BIBLE SCHOLAR';else if(pct>=75)rating='BIBLE EXPERT';else if(pct>=55)rating='BIBLE STUDENT';else if(pct>=35)rating='BIBLE EXPLORER';else rating='KEEP STUDYING';
+  if(pct>=90)rating='BIBLE SCHOLAR 🏆';
+  else if(pct>=75)rating='BIBLE EXPERT ⭐';
+  else if(pct>=55)rating='BIBLE STUDENT 📖';
+  else if(pct>=35)rating='BIBLE EXPLORER 🌱';
+  else rating='KEEP STUDYING 🕊️';
+
   document.getElementById('r-score').textContent=pad(score);
   document.getElementById('r-rating').textContent=rating;
   document.getElementById('r-correct').textContent=correct+'/10';
   document.getElementById('r-streak').textContent=bestStreak;
   document.getElementById('r-avg').textContent=answeredCount?(totalTime/answeredCount).toFixed(1)+'s':'—';
-  soundGameOver();
+  document.getElementById('sc-score').textContent=pad(score);
+  document.getElementById('sc-correct').textContent=correct+'/10';
+  document.getElementById('sc-streak').textContent=bestStreak;
+
+  // Achievements
+  const achs=[];
+  if(correct===10)achs.push({icon:'📖',label:'PERFECT 10'});
+  if(bestStreak>=5)achs.push({icon:'🔥',label:'ON FIRE (5 STREAK)'});
+  if(bestStreak>=8)achs.push({icon:'⚡',label:'LIGHTNING STREAK'});
+  if(answeredCount>0&&(totalTime/answeredCount)<3)achs.push({icon:'⚡',label:'SPEED DEMON'});
+  if(!ll5050Used&&!llTimeUsed)achs.push({icon:'💪',label:'NO LIFELINES'});
+  if(score>=150)achs.push({icon:'🏆',label:'SCHOLAR'});
+  if(comboMultiplier>=2)achs.push({icon:'🎯',label:'COMBO MASTER'});
+  if(isNewPB)achs.push({icon:'👑',label:'NEW PERSONAL BEST'});
+
+  const achRow=document.getElementById('ach-row');
+  achRow.innerHTML='';
+  if(achs.length===0){
+    document.getElementById('achievements-wrap').style.display='none';
+  } else {
+    document.getElementById('achievements-wrap').style.display='block';
+    achs.forEach((a,i)=>{
+      const d=document.createElement('div');
+      d.className='ach-badge';
+      d.style.animationDelay=i*0.1+'s';
+      d.textContent=a.icon+' '+a.label;
+      achRow.appendChild(d);
+    });
+  }
+
   show('s-result');
 }
 
-/* ============================================================
-   SOUND ENGINE — Fun & Dramatic Web Audio API
-   All sounds generated programmatically — no external files
-   ============================================================ */
-let audioCtx = null;
-let tickInterval = null;
-let bgLoopNode = null;
-
-function getCtx() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
+function copyResult(){
+  const txt=`🎮 Bible Trivia Blitz\n⚡ Score: ${pad(score)}/200\n✓ Correct: ${correct}/10\n🔥 Best streak: ${bestStreak}\n\nCan you beat me? Play free at:\nbiblicallivesseries.github.io/BibleCharacter/trivia.html\n\n@BiblicalLivesSeries`;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=document.querySelector('.copy-btn');
+    btn.textContent='✓ COPIED!';
+    setTimeout(()=>btn.textContent='📋 COPY RESULT TO SHARE',2000);
+  }).catch(()=>{
+    const btn=document.querySelector('.copy-btn');
+    btn.textContent='COPY FAILED — TRY SCREENSHOT';
+  });
 }
 
-function tone(freq, type, start, dur, vol, slide=0) {
-  try {
-    const ctx = getCtx();
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.connect(g); g.connect(ctx.destination);
-    o.type = type;
-    o.frequency.setValueAtTime(freq, ctx.currentTime + start);
-    if (slide) o.frequency.linearRampToValueAtTime(slide, ctx.currentTime + start + dur);
-    g.gain.setValueAtTime(vol, ctx.currentTime + start);
-    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + dur);
-    o.start(ctx.currentTime + start);
-    o.stop(ctx.currentTime + start + dur + 0.05);
-  } catch(e) {}
+/* ─── SOUND ENGINE ──────────────────────────────────────── */
+let audioCtx=null,tickInterval=null;
+function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+function tone(freq,type,start,dur,vol,slide=0){
+  try{
+    const ctx=getCtx();const o=ctx.createOscillator();const g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);o.type=type;
+    o.frequency.setValueAtTime(freq,ctx.currentTime+start);
+    if(slide)o.frequency.linearRampToValueAtTime(slide,ctx.currentTime+start+dur);
+    g.gain.setValueAtTime(vol,ctx.currentTime+start);
+    g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+start+dur);
+    o.start(ctx.currentTime+start);o.stop(ctx.currentTime+start+dur+0.05);
+  }catch(e){}
 }
-
-function noise(start, dur, vol, freq=800) {
-  try {
-    const ctx = getCtx();
-    const buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
-    const d = buf.getChannelData(0);
-    for (let i = 0; i < d.length; i++) d[i] = (Math.random()*2-1) * Math.exp(-i/(ctx.sampleRate*0.015));
-    const src = ctx.createBufferSource();
-    const filt = ctx.createBiquadFilter();
-    const g = ctx.createGain();
-    src.buffer = buf;
-    filt.type = 'bandpass';
-    filt.frequency.value = freq;
-    src.connect(filt); filt.connect(g); g.connect(ctx.destination);
-    g.gain.setValueAtTime(vol, ctx.currentTime + start);
-    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + dur);
-    src.start(ctx.currentTime + start);
-  } catch(e) {}
+function noise(start,dur,vol,freq=800){
+  try{
+    const ctx=getCtx();const buf=ctx.createBuffer(1,ctx.sampleRate*dur,ctx.sampleRate);
+    const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(ctx.sampleRate*0.015));
+    const src=ctx.createBufferSource();const filt=ctx.createBiquadFilter();const g=ctx.createGain();
+    src.buffer=buf;filt.type='bandpass';filt.frequency.value=freq;
+    src.connect(filt);filt.connect(g);g.connect(ctx.destination);
+    g.gain.setValueAtTime(vol,ctx.currentTime+start);
+    g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+start+dur);
+    src.start(ctx.currentTime+start);
+  }catch(e){}
 }
-
-// 🎵 GAME START — triumphant trumpet fanfare
-function soundGameStart() {
-  // Drum roll
-  for(let i=0;i<8;i++) noise(i*0.05, 0.04, 0.4+i*0.05, 200);
-  // Fanfare notes
-  tone(523,'square',0.45,0.12,0.3);
-  tone(523,'square',0.58,0.12,0.3);
-  tone(784,'square',0.71,0.08,0.35);
-  tone(659,'square',0.80,0.08,0.3);
-  tone(784,'square',0.89,0.35,0.4);
-  // Harmony
-  tone(392,'sine',0.71,0.55,0.15);
-  tone(523,'sine',0.71,0.55,0.1);
+function soundGameStart(){
+  for(let i=0;i<8;i++)noise(i*0.05,0.04,0.4+i*0.05,200);
+  tone(523,'square',0.45,0.12,0.3);tone(523,'square',0.58,0.12,0.3);
+  tone(784,'square',0.71,0.08,0.35);tone(659,'square',0.80,0.08,0.3);
+  tone(784,'square',0.89,0.35,0.4);tone(392,'sine',0.71,0.55,0.15);
 }
-
-// ✅ CORRECT — bouncy happy jingle
-function soundCorrect() {
-  tone(523,'sine',0,0.08,0.4);
-  tone(659,'sine',0.08,0.08,0.4);
-  tone(784,'sine',0.16,0.08,0.4);
-  tone(1047,'sine',0.24,0.2,0.45);
-  // Little sparkle
-  tone(1568,'sine',0.28,0.1,0.2);
-  tone(2093,'sine',0.35,0.12,0.15);
-  // Punch
+function soundCorrect(){
+  tone(523,'sine',0,0.08,0.4);tone(659,'sine',0.08,0.08,0.4);
+  tone(784,'sine',0.16,0.08,0.4);tone(1047,'sine',0.24,0.2,0.45);
+  tone(1568,'sine',0.28,0.1,0.2);tone(2093,'sine',0.35,0.12,0.15);
   noise(0,0.05,0.3,400);
 }
-
-// ❌ WRONG — sad trombone wah-wah
-function soundWrong() {
-  tone(311,'sawtooth',0,0.1,0.35,280);
-  tone(277,'sawtooth',0.1,0.1,0.35,247);
-  tone(246,'sawtooth',0.2,0.15,0.35,220);
-  tone(207,'sawtooth',0.35,0.25,0.4,174);
-  // Wah filter effect via vibrato
+function soundWrong(){
+  tone(311,'sawtooth',0,0.1,0.35,280);tone(277,'sawtooth',0.1,0.1,0.35,247);
+  tone(246,'sawtooth',0.2,0.15,0.35,220);tone(207,'sawtooth',0.35,0.25,0.4,174);
   tone(233,'square',0,0.4,0.1);
 }
-
-// 🔥 STREAK — epic power-up
-function soundStreak() {
-  // Rising power chord
-  tone(261,'square',0,0.08,0.25);
-  tone(329,'square',0.07,0.08,0.25);
-  tone(392,'square',0.14,0.08,0.28);
-  tone(523,'square',0.21,0.08,0.3);
-  tone(659,'square',0.28,0.08,0.32);
-  tone(784,'square',0.35,0.08,0.35);
-  tone(1047,'square',0.42,0.3,0.4);
-  // Harmony layer
-  tone(392,'sine',0.42,0.3,0.2);
-  tone(523,'sine',0.42,0.3,0.15);
-  // Sparkle hits
-  tone(1568,'sine',0.44,0.06,0.3);
-  tone(2093,'sine',0.50,0.06,0.25);
-  tone(2637,'sine',0.56,0.1,0.2);
-  // Drum hit
-  noise(0.42,0.06,0.5,150);
-  noise(0.50,0.04,0.4,200);
+function soundStreak(){
+  [261,329,392,523,659,784,1047].forEach((n,i)=>tone(n,'square',i*0.07,0.08,0.25+i*0.02));
+  tone(1047,'square',0.5,0.3,0.4);tone(392,'sine',0.5,0.3,0.2);
+  [1568,2093,2637].forEach((n,i)=>tone(n,'sine',0.52+i*0.06,0.08,0.25-i*0.05));
+  noise(0.5,0.06,0.5,150);
 }
-
-// ⏱ TICK — urgent heartbeat in last 3 seconds
-function soundTick() {
-  try {
-    const ctx = getCtx();
-    // Heartbeat: two quick thumps
-    const thump = (t) => {
-      const buf = ctx.createBuffer(1, ctx.sampleRate*0.08, ctx.sampleRate);
-      const d = buf.getChannelData(0);
-      for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.exp(-i/(ctx.sampleRate*0.02));
-      const src = ctx.createBufferSource();
-      const filt = ctx.createBiquadFilter();
-      const g = ctx.createGain();
-      filt.type='lowpass'; filt.frequency.value=120;
-      src.buffer=buf;
-      src.connect(filt); filt.connect(g); g.connect(ctx.destination);
-      g.gain.setValueAtTime(0.8, ctx.currentTime+t);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+t+0.08);
+function soundLifeline(){
+  tone(880,'sine',0,0.06,0.3);tone(1108,'sine',0.07,0.06,0.3);tone(1318,'sine',0.14,0.12,0.3);
+}
+function soundNewPB(){
+  for(let i=0;i<16;i++)noise(i*0.04,0.035,0.3+i*0.05,180+i*15);
+  [392,523,659,784,1047,1318].forEach((n,i)=>tone(n,'square',0.7+i*0.1,0.09,0.3));
+  tone(1047,'square',1.35,1.0,0.35);tone(1318,'sine',1.35,1.0,0.2);
+  noise(1.35,0.5,0.4,3000);noise(1.35,0.8,0.2,5000);
+}
+function soundGameOver(){
+  for(let i=0;i<12;i++)noise(i*0.04,0.035,0.3+i*0.04,180+i*10);
+  [392,523,659,784,1047].forEach((n,i)=>tone(n,'square',0.52+i*0.1,0.09,0.3));
+  tone(784,'square',1.05,0.8,0.35);tone(987,'sine',1.05,0.8,0.2);
+  noise(1.05,0.3,0.4,3000);
+}
+function soundTick(){
+  try{
+    const ctx=getCtx();
+    const thump=(t)=>{
+      const buf=ctx.createBuffer(1,ctx.sampleRate*0.08,ctx.sampleRate);
+      const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(ctx.sampleRate*0.02));
+      const src=ctx.createBufferSource();const filt=ctx.createBiquadFilter();const g=ctx.createGain();
+      filt.type='lowpass';filt.frequency.value=120;src.buffer=buf;
+      src.connect(filt);filt.connect(g);g.connect(ctx.destination);
+      g.gain.setValueAtTime(0.8,ctx.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+t+0.08);
       src.start(ctx.currentTime+t);
     };
-    thump(0); thump(0.12);
-    // High beep
-    tone(880,'sine',0,0.05,0.3);
-  } catch(e){}
+    thump(0);thump(0.12);tone(880,'sine',0,0.05,0.25);
+  }catch(e){}
 }
-
-// ⏰ TIMEOUT — dramatic fail horn
-function soundTimeout() {
-  tone(233,'sawtooth',0,0.15,0.4,196);
-  tone(196,'sawtooth',0.15,0.15,0.4,164);
+function soundTimeout(){
+  tone(233,'sawtooth',0,0.15,0.4,196);tone(196,'sawtooth',0.15,0.15,0.4,164);
   tone(164,'sawtooth',0.3,0.25,0.45,130);
-  // Buzzer noise
-  noise(0,0.08,0.5,300);
-  noise(0.15,0.08,0.4,250);
-  noise(0.3,0.1,0.4,200);
+  noise(0,0.08,0.5,300);noise(0.15,0.08,0.4,250);noise(0.3,0.1,0.4,200);
 }
+function startTicking(){stopTicking();tickInterval=setInterval(soundTick,600);}
+function stopTicking(){if(tickInterval){clearInterval(tickInterval);tickInterval=null;}}
 
-// 🏆 GAME OVER — grand finale
-function soundGameOver() {
-  // Drum roll build
-  for(let i=0;i<12;i++) noise(i*0.04, 0.035, 0.3+i*0.04, 180+i*10);
-  // Victory fanfare
-  const notes = [392,523,659,784,1047];
-  notes.forEach((n,i) => {
-    tone(n,'square',0.52+i*0.1,0.09,0.3);
-    tone(n*1.25,'sine',0.52+i*0.1,0.09,0.15);
-  });
-  // Big finale chord
-  tone(784,'square',1.05,0.8,0.35);
-  tone(987,'sine',1.05,0.8,0.2);
-  tone(1174,'sine',1.05,0.8,0.15);
-  // Cymbal crash
-  noise(1.05,0.3,0.4,3000);
-  noise(1.05,0.6,0.2,5000);
-}
-
-function startTicking() {
-  stopTicking();
-  tickInterval = setInterval(soundTick, 600);
-}
-
-function stopTicking() {
-  if (tickInterval) { clearInterval(tickInterval); tickInterval = null; }
-}
+init();
 </script>
 </body>
 </html>
