@@ -274,9 +274,12 @@ function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.re
 function pad(n){return String(n).padStart(3,'0')}
 
 function startGame(){
+  // Unlock audio context on first user interaction (required by iOS)
+  try { getCtx().resume(); } catch(e) {}
   questions=shuffle(allQ).slice(0,TOTAL);
   current=0;score=0;correct=0;streak=0;bestStreak=0;totalTime=0;answeredCount=0;
-  show('s-game');setTimeout(loadQ,80);
+  soundGameStart();
+  show('s-game');setTimeout(loadQ,800);
 }
 
 function loadQ(){
@@ -315,25 +318,35 @@ function updateTimer(){
   const d=timeLeft<=3;
   arc.className='timer-arc'+(d?' danger':'');
   num.className='timer-num'+(d?' danger':'');
+  // Start ticking in last 3 seconds
+  if(d && !tickInterval) startTicking();
+  if(!d) stopTicking();
 }
 
 function pick(el,idx){
-  if(answered)return;answered=true;clearInterval(timerInterval);
+  if(answered)return;answered=true;clearInterval(timerInterval);stopTicking();
   const q=questions[current];const used=TIME-timeLeft;totalTime+=used;answeredCount++;
   const ok=idx===q.a;q._ok=ok;
   document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;const i=parseInt(b.dataset.idx);if(i===q.a)b.className='opt reveal';});
-  if(ok){const pts=10+Math.round((timeLeft/TIME)*5);score+=pts;correct++;streak++;if(streak>bestStreak)bestStreak=streak;el.className='opt correct';if(streak>0&&streak%3===0){score+=5;fb('streak',`🔥 ${streak} STREAK +${pts+5} PTS`)}else fb('correct',`✓ CORRECT +${pts} PTS`)}
-  else{streak=0;el.className='opt wrong';fb('wrong',`✗ ANSWER: ${q.opts[q.a]}`)}
+  if(ok){
+    const pts=10+Math.round((timeLeft/TIME)*5);score+=pts;correct++;streak++;if(streak>bestStreak)bestStreak=streak;
+    el.className='opt correct';
+    if(streak>0&&streak%3===0){score+=5;soundStreak();fb('streak',`🔥 ${streak} STREAK +${pts+5} PTS`)}
+    else{soundCorrect();fb('correct',`✓ CORRECT +${pts} PTS`)}
+  } else {
+    streak=0;el.className='opt wrong';soundWrong();fb('wrong',`✗ ANSWER: ${q.opts[q.a]}`)
+  }
   document.getElementById('score-val').textContent=pad(score);
   document.getElementById('streak-val').textContent=streak+(streak>=3?'🔥':'');
   setTimeout(()=>next(),1300);
 }
 
 function timeout(){
-  if(answered)return;answered=true;clearInterval(timerInterval);
+  if(answered)return;answered=true;clearInterval(timerInterval);stopTicking();
   const q=questions[current];q._ok=false;streak=0;
   document.getElementById('streak-val').textContent='0';
   document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(parseInt(b.dataset.idx)===q.a)b.className='opt reveal';});
+  soundTimeout();
   fb('timeout',`TIME UP — ANSWER: ${q.opts[q.a]}`);
   setTimeout(()=>next(),1300);
 }
@@ -351,7 +364,180 @@ function result(){
   document.getElementById('r-correct').textContent=correct+'/10';
   document.getElementById('r-streak').textContent=bestStreak;
   document.getElementById('r-avg').textContent=answeredCount?(totalTime/answeredCount).toFixed(1)+'s':'—';
+  soundGameOver();
   show('s-result');
+}
+
+/* ============================================================
+   SOUND ENGINE — Fun & Dramatic Web Audio API
+   All sounds generated programmatically — no external files
+   ============================================================ */
+let audioCtx = null;
+let tickInterval = null;
+let bgLoopNode = null;
+
+function getCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function tone(freq, type, start, dur, vol, slide=0) {
+  try {
+    const ctx = getCtx();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.type = type;
+    o.frequency.setValueAtTime(freq, ctx.currentTime + start);
+    if (slide) o.frequency.linearRampToValueAtTime(slide, ctx.currentTime + start + dur);
+    g.gain.setValueAtTime(vol, ctx.currentTime + start);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + dur);
+    o.start(ctx.currentTime + start);
+    o.stop(ctx.currentTime + start + dur + 0.05);
+  } catch(e) {}
+}
+
+function noise(start, dur, vol, freq=800) {
+  try {
+    const ctx = getCtx();
+    const buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random()*2-1) * Math.exp(-i/(ctx.sampleRate*0.015));
+    const src = ctx.createBufferSource();
+    const filt = ctx.createBiquadFilter();
+    const g = ctx.createGain();
+    src.buffer = buf;
+    filt.type = 'bandpass';
+    filt.frequency.value = freq;
+    src.connect(filt); filt.connect(g); g.connect(ctx.destination);
+    g.gain.setValueAtTime(vol, ctx.currentTime + start);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + dur);
+    src.start(ctx.currentTime + start);
+  } catch(e) {}
+}
+
+// 🎵 GAME START — triumphant trumpet fanfare
+function soundGameStart() {
+  // Drum roll
+  for(let i=0;i<8;i++) noise(i*0.05, 0.04, 0.4+i*0.05, 200);
+  // Fanfare notes
+  tone(523,'square',0.45,0.12,0.3);
+  tone(523,'square',0.58,0.12,0.3);
+  tone(784,'square',0.71,0.08,0.35);
+  tone(659,'square',0.80,0.08,0.3);
+  tone(784,'square',0.89,0.35,0.4);
+  // Harmony
+  tone(392,'sine',0.71,0.55,0.15);
+  tone(523,'sine',0.71,0.55,0.1);
+}
+
+// ✅ CORRECT — bouncy happy jingle
+function soundCorrect() {
+  tone(523,'sine',0,0.08,0.4);
+  tone(659,'sine',0.08,0.08,0.4);
+  tone(784,'sine',0.16,0.08,0.4);
+  tone(1047,'sine',0.24,0.2,0.45);
+  // Little sparkle
+  tone(1568,'sine',0.28,0.1,0.2);
+  tone(2093,'sine',0.35,0.12,0.15);
+  // Punch
+  noise(0,0.05,0.3,400);
+}
+
+// ❌ WRONG — sad trombone wah-wah
+function soundWrong() {
+  tone(311,'sawtooth',0,0.1,0.35,280);
+  tone(277,'sawtooth',0.1,0.1,0.35,247);
+  tone(246,'sawtooth',0.2,0.15,0.35,220);
+  tone(207,'sawtooth',0.35,0.25,0.4,174);
+  // Wah filter effect via vibrato
+  tone(233,'square',0,0.4,0.1);
+}
+
+// 🔥 STREAK — epic power-up
+function soundStreak() {
+  // Rising power chord
+  tone(261,'square',0,0.08,0.25);
+  tone(329,'square',0.07,0.08,0.25);
+  tone(392,'square',0.14,0.08,0.28);
+  tone(523,'square',0.21,0.08,0.3);
+  tone(659,'square',0.28,0.08,0.32);
+  tone(784,'square',0.35,0.08,0.35);
+  tone(1047,'square',0.42,0.3,0.4);
+  // Harmony layer
+  tone(392,'sine',0.42,0.3,0.2);
+  tone(523,'sine',0.42,0.3,0.15);
+  // Sparkle hits
+  tone(1568,'sine',0.44,0.06,0.3);
+  tone(2093,'sine',0.50,0.06,0.25);
+  tone(2637,'sine',0.56,0.1,0.2);
+  // Drum hit
+  noise(0.42,0.06,0.5,150);
+  noise(0.50,0.04,0.4,200);
+}
+
+// ⏱ TICK — urgent heartbeat in last 3 seconds
+function soundTick() {
+  try {
+    const ctx = getCtx();
+    // Heartbeat: two quick thumps
+    const thump = (t) => {
+      const buf = ctx.createBuffer(1, ctx.sampleRate*0.08, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.exp(-i/(ctx.sampleRate*0.02));
+      const src = ctx.createBufferSource();
+      const filt = ctx.createBiquadFilter();
+      const g = ctx.createGain();
+      filt.type='lowpass'; filt.frequency.value=120;
+      src.buffer=buf;
+      src.connect(filt); filt.connect(g); g.connect(ctx.destination);
+      g.gain.setValueAtTime(0.8, ctx.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+t+0.08);
+      src.start(ctx.currentTime+t);
+    };
+    thump(0); thump(0.12);
+    // High beep
+    tone(880,'sine',0,0.05,0.3);
+  } catch(e){}
+}
+
+// ⏰ TIMEOUT — dramatic fail horn
+function soundTimeout() {
+  tone(233,'sawtooth',0,0.15,0.4,196);
+  tone(196,'sawtooth',0.15,0.15,0.4,164);
+  tone(164,'sawtooth',0.3,0.25,0.45,130);
+  // Buzzer noise
+  noise(0,0.08,0.5,300);
+  noise(0.15,0.08,0.4,250);
+  noise(0.3,0.1,0.4,200);
+}
+
+// 🏆 GAME OVER — grand finale
+function soundGameOver() {
+  // Drum roll build
+  for(let i=0;i<12;i++) noise(i*0.04, 0.035, 0.3+i*0.04, 180+i*10);
+  // Victory fanfare
+  const notes = [392,523,659,784,1047];
+  notes.forEach((n,i) => {
+    tone(n,'square',0.52+i*0.1,0.09,0.3);
+    tone(n*1.25,'sine',0.52+i*0.1,0.09,0.15);
+  });
+  // Big finale chord
+  tone(784,'square',1.05,0.8,0.35);
+  tone(987,'sine',1.05,0.8,0.2);
+  tone(1174,'sine',1.05,0.8,0.15);
+  // Cymbal crash
+  noise(1.05,0.3,0.4,3000);
+  noise(1.05,0.6,0.2,5000);
+}
+
+function startTicking() {
+  stopTicking();
+  tickInterval = setInterval(soundTick, 600);
+}
+
+function stopTicking() {
+  if (tickInterval) { clearInterval(tickInterval); tickInterval = null; }
 }
 </script>
 </body>
